@@ -91,7 +91,7 @@ const CheckoutForm = ({ amount, onSuccess, onCancel, movieTitle, seats }) => {
                     Back to Seats
                 </button>
                 <button type="submit" className="btn-pay" disabled={!stripe || processing}>
-                    {processing ? <div className="spinner"></div> : `Pay $${amount.toFixed(2)}`}
+                    {processing ? <div className="spinner"></div> : `CHECKOUT $${amount.toFixed(2)}`}
                 </button>
             </div>
         </form>
