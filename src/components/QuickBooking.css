@@ -1,0 +1,89 @@
+.quick-booking-container {
+    margin-top: -40px;
+    position: relative;
+    z-index: 100;
+}
+
+.quick-booking-bar {
+    background: var(--black-card);
+    border: 1px solid var(--dark-gray);
+    padding: 20px 30px;
+    border-radius: 4px;
+    display: flex;
+    align-items: flex-end;
+    gap: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    flex-wrap: wrap;
+}
+
+.qb-item {
+    flex: 1;
+    min-width: 200px;
+}
+
+.qb-item label {
+    display: block;
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8rem;
+    margin-bottom: 8px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.qb-item select {
+    width: 100%;
+    padding: 12px;
+    background: #000;
+    border: 1px solid #333;
+    color: var(--white);
+    border-radius: 0;
+    font-family: 'Montserrat', sans-serif;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+.qb-item select:focus {
+    outline: none;
+    border-color: var(--white);
+}
+
+.btn-qb {
+    flex: 0 0 auto;
+    background: var(--red);
+    color: var(--white);
+    border: none;
+    padding: 13px 30px;
+    border-radius: 4px;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s;
+    height: 46px;
+    /* Match input height roughly */
+}
+
+.btn-qb:hover {
+    background: var(--red-bright);
+    box-shadow: 0 0 15px rgba(220, 20, 60, 0.5);
+}
+
+@media (max-width: 768px) {
+    .quick-booking-container {
+        margin-top: 0;
+        padding: 20px;
+    }
+
+    .quick-booking-bar {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+
+    .btn-qb {
+        width: 100%;
+        margin-top: 10px;
+    }
+}

@@ -1,0 +1,271 @@
+/* Main Page Layout */
+.showtimes-page {
+    background-color: var(--black);
+    color: var(--white);
+    min-height: 100vh;
+    font-family: 'Montserrat', sans-serif;
+    padding-bottom: 80px;
+}
+
+.showtimes-header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #222;
+}
+
+.showtimes-title-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.clock-icon {
+    font-size: 2.5rem;
+    color: var(--white);
+    /* No gold/gray */
+    display: none;
+    /* Clean up */
+}
+
+.page-title {
+    font-size: 3rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--white);
+    margin: 0;
+    letter-spacing: -1px;
+}
+
+.page-subtitle {
+    color: var(--gray);
+    margin-top: 10px;
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+/* Date Selector */
+.date-section-label {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--white);
+    text-transform: uppercase;
+}
+
+.date-scroll-wrapper {
+    display: flex;
+    gap: 0;
+    /* Joined */
+    overflow-x: auto;
+    padding-bottom: 20px;
+    scrollbar-width: none;
+    border-bottom: 1px solid #222;
+    margin-bottom: 40px;
+}
+
+.date-scroll-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+.date-card {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    min-width: 100px;
+    padding: 15px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--gray);
+    border-radius: 0;
+}
+
+.date-card:hover {
+    background: transparent;
+    color: var(--white);
+}
+
+.date-card.active {
+    background: transparent;
+    border-bottom: 2px solid var(--red);
+    color: var(--white);
+}
+
+.date-card-day {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.date-card-num {
+    font-size: 1.8rem;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 5px;
+}
+
+.date-card-month {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* Sessions LIST (Replacing Grid for Shape Respect) */
+.sessions-grid {
+    display: flex;
+    flex-direction: column;
+    /* List View */
+    gap: 0;
+    /* No gap, border separated */
+}
+
+/* Session Row */
+.session-card {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #222;
+    border-radius: 0;
+    padding: 30px 0;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    transition: background 0.2s;
+}
+
+/* 
+  Structure change assumption: 
+  Logic in JSX might need minor tweak to support row layout perfectly if structure is nested 
+  but FLEX row should handle it.
+*/
+
+.session-main {
+    display: flex;
+    gap: 30px;
+    flex: 1;
+    align-items: center;
+}
+
+.session-poster {
+    width: 60px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 0;
+    /* Sharp */
+    filter: grayscale(100%);
+    transition: filter 0.3s;
+}
+
+.session-card:hover .session-poster {
+    filter: grayscale(0%);
+}
+
+.session-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.session-movie-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.session-location {
+    font-size: 0.9rem;
+    color: var(--gray);
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-transform: uppercase;
+}
+
+.pin-icon {
+    color: var(--white);
+    /* No red unless necessary */
+}
+
+.session-time-badge {
+    /* Now part of the row or just plain text? Reference uses clear text columns */
+    /* Let's keep badge but minimal */
+    background: transparent;
+    color: var(--white);
+    padding: 0;
+    border-radius: 0;
+    font-weight: 700;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 5px;
+    border: 1px solid #333;
+    padding: 5px 15px;
+}
+
+.session-footer {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    border-top: none;
+    /* Remove separation in row view */
+    padding-top: 0;
+}
+
+.session-price {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--white);
+}
+
+.btn-seats {
+    background: transparent;
+    border: 1px solid var(--white);
+    color: var(--white);
+    padding: 10px 25px;
+    border-radius: 0;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-transform: uppercase;
+}
+
+.btn-seats:hover {
+    background: var(--white);
+    color: var(--black);
+}
+
+@media (max-width: 768px) {
+    .session-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .session-main {
+        width: 100%;
+    }
+
+    .session-footer {
+        width: 100%;
+        justify-content: space-between;
+    }
+}

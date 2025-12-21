@@ -1,0 +1,149 @@
+/* Navbar Container */
+.fixed-content-wrapper {
+    position: fixed;
+    /* Fixed to stay on top */
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    transition: background 0.3s ease;
+    background: rgba(0, 0, 0, 0.8);
+    /* Dark background like Plaza */
+    padding: 0;
+    border-bottom: 1px solid #222;
+}
+
+.fixed-content {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 90px;
+}
+
+/* Logo Styling */
+.logo {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0;
+    z-index: 1001;
+    display: flex;
+    align-items: center;
+}
+
+.logo em {
+    font-style: normal;
+    color: var(--white);
+}
+
+/* Menu Links - Centered & Spaced */
+.navbar-menu {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+    margin-left: auto;
+    margin-right: 40px;
+}
+
+.navbar-menu a {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8rem;
+    color: #cccccc;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.navbar-menu a:hover {
+    color: var(--red);
+}
+
+/* Actions */
+.navbar-actions {
+    margin-left: 0;
+}
+
+.navbar-actions .btn {
+    background-color: transparent;
+    color: var(--red);
+    border: 1px solid var(--red);
+    border-radius: 0;
+    padding: 10px 24px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.navbar-actions .btn:hover {
+    background-color: var(--red);
+    color: var(--white);
+}
+
+/* Mobile Responsive */
+.menu-btn,
+.menu-icon {
+    display: none;
+}
+
+@media (max-width: 1024px) {
+    .menu-icon {
+        display: block;
+        cursor: pointer;
+        color: #fff;
+    }
+
+    .navicon {
+        background: #fff;
+        display: block;
+        height: 2px;
+        width: 24px;
+        position: relative;
+    }
+
+    .navicon:before,
+    .navicon:after {
+        background: #fff;
+        content: '';
+        display: block;
+        height: 100%;
+        position: absolute;
+        width: 100%;
+        transition: all 0.2s ease-out;
+    }
+
+    .navicon:before {
+        top: 7px;
+    }
+
+    .navicon:after {
+        top: -7px;
+    }
+
+    .navbar-menu {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.95);
+        padding: 20px 0;
+        text-align: center;
+        gap: 20px;
+    }
+
+    .menu-btn:checked~.navbar-menu {
+        display: flex;
+    }
+}

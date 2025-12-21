@@ -1,0 +1,193 @@
+.seat-selection-container {
+    background: #fff;
+    color: #333;
+    padding: 30px;
+    border-radius: 8px;
+    max-width: 1000px;
+    margin: 0 auto;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.seat-legend {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.legend-box {
+    width: 24px;
+    height: 24px;
+    border-radius: 2px;
+}
+
+.legend-box.your-seat {
+    background-color: var(--red);
+}
+
+.legend-box.available {
+    background-color: #555;
+}
+
+.legend-box.sold {
+    background-color: #ccc;
+}
+
+.screen-container {
+    margin: 0 auto 50px;
+    width: 80%;
+    text-align: center;
+}
+
+.screen-bar {
+    height: 12px;
+    background: #222;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.screen-text {
+    font-size: 0.75rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.seats-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+}
+
+.seat-row {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.row-label {
+    width: 25px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #333;
+    text-align: center;
+}
+
+.seat {
+    width: 24px;
+    height: 24px;
+    background-color: #555;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.6rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.seat:hover {
+    background-color: #777;
+}
+
+.seat.sold {
+    background-color: #ccc;
+    color: #888;
+    cursor: not-allowed;
+}
+
+.seat.selected {
+    background-color: var(--red);
+    color: #fff;
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(229, 9, 20, 0.4);
+}
+
+.row-v {
+    margin-top: 25px;
+}
+
+.row-v .seat {
+    width: 50px;
+    height: 45px;
+    border: 3px solid #f57c00;
+    background-color: transparent;
+    color: #333;
+    font-size: 1rem;
+}
+
+.row-v .seat:hover {
+    background-color: rgba(245, 124, 0, 0.1);
+}
+
+.row-v .seat.selected {
+    background-color: #f57c00;
+    color: #fff;
+}
+
+.row-v .seat.sold {
+    border-color: #ccc;
+    color: #ccc;
+}
+
+.booking-footer {
+    margin-top: 50px;
+    border-top: 1px solid #eee;
+    padding-top: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.selected-info h4 {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.selected-seats-list {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--black);
+}
+
+.total-price {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--red);
+}
+
+.confirm-booking-btn {
+    background: var(--red);
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.confirm-booking-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+.confirm-booking-btn:not(:disabled):hover {
+    background: #b10710;
+    transform: translateY(-2px);
+}

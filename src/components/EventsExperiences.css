@@ -1,0 +1,167 @@
+.experiences-section {
+    background: #000;
+    padding: 80px 0;
+    color: var(--white);
+}
+
+.experiences-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.experiences-title {
+    color: var(--red);
+    font-size: 2.5rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.experience-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 15px;
+}
+
+.exp-tab {
+    background: none;
+    border: none;
+    color: var(--gray);
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0 10px;
+    position: relative;
+    text-transform: capitalize;
+}
+
+.exp-tab:hover {
+    color: var(--white);
+}
+
+.exp-tab.active {
+    color: var(--red);
+}
+
+.exp-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -16px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--red);
+}
+
+.experience-content {
+    margin-top: 60px;
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    animation: fadeIn 0.5s ease;
+}
+
+.exp-image-container {
+    flex: 1;
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(229, 9, 20, 0.2);
+}
+
+.exp-image-container img {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.8s cubic-bezier(0.2, 1, 0.3, 1);
+}
+
+.experience-content:hover .exp-image-container img {
+    transform: scale(1.05);
+}
+
+.exp-text-container {
+    flex: 1;
+}
+
+.exp-badge {
+    color: var(--red);
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.exp-name {
+    font-size: 3rem;
+    font-weight: 900;
+    margin-bottom: 25px;
+    line-height: 1.1;
+    text-transform: uppercase;
+}
+
+.exp-description {
+    color: var(--gray);
+    line-height: 1.8;
+    font-size: 1.1rem;
+    margin-bottom: 35px;
+}
+
+.exp-features {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 40px;
+}
+
+.exp-features li {
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: #ccc;
+}
+
+.exp-features li::before {
+    content: '→';
+    color: var(--red);
+    font-weight: bold;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 968px) {
+    .experience-content {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .exp-name {
+        font-size: 2.2rem;
+    }
+
+    .experience-tabs {
+        gap: 20px;
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding-bottom: 10px;
+        scrollbar-width: none;
+    }
+}
