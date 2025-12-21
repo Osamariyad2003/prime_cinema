@@ -1,0 +1,96 @@
+.home-showtimes {
+    padding: 60px 0;
+    background: #050505;
+    border-top: 1px solid #111;
+}
+
+.showtimes-scroll {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    padding: 20px 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--gold) #111;
+}
+
+.showtimes-scroll::-webkit-scrollbar {
+    height: 4px;
+}
+
+.showtimes-scroll::-webkit-scrollbar-thumb {
+    background: var(--gold);
+    border-radius: 10px;
+}
+
+.home-session-card {
+    flex: 0 0 280px;
+    background: var(--black-card);
+    border: 1px solid #222;
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: all 0.3s ease;
+}
+
+.home-session-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-5px);
+    background: #111;
+}
+
+.session-time {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--gold);
+    background: rgba(197, 160, 89, 0.1);
+    padding: 10px;
+    border-radius: 8px;
+    min-width: 80px;
+    text-align: center;
+}
+
+.session-details {
+    flex: 1;
+    overflow: hidden;
+}
+
+.session-movie {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--white);
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.session-location {
+    font-size: 0.8rem;
+    color: var(--gray);
+    margin: 3px 0 0;
+}
+
+.btn-mini-book {
+    background: var(--red);
+    color: var(--white);
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-mini-book:hover {
+    background: #b10710;
+}
+
+@media (max-width: 768px) {
+    .home-session-card {
+        flex: 0 0 240px;
+    }
+}

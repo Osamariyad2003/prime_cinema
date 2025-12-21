@@ -12,6 +12,7 @@ import Footer from './components/Footer';
 import HomeInfo from './components/HomeInfo';
 import EventsExperiences from './components/EventsExperiences';
 import CinematicGallery from './components/CinematicGallery';
+import HomeShowtimes from './components/HomeShowtimes';
 
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Login from './components/Login';
@@ -22,6 +23,7 @@ const Home = () => (
   <>
     <Hero />
     <QuickBooking />
+    <HomeShowtimes />
     <MovieGrid />
     <EventsExperiences />
     <CinematicGallery />

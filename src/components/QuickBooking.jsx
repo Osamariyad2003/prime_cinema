@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { fetchMovies } from '../services/api';
+import { fetchMovies, createBooking } from '../services/api';
+import { useAuth } from '../context/AuthContext';
 import './QuickBooking.css';
 import './MovieModal.css';
 import SeatSelection from './SeatSelection';
 
 const QuickBooking = () => {
+    const { token } = useAuth();
     const [movies, setMovies] = useState([]);
     const [selectedMovieId, setSelectedMovieId] = useState('');
     const [selectedCinemaId, setSelectedCinemaId] = useState('');
@@ -69,9 +71,18 @@ const QuickBooking = () => {
         }
     };
 
-    const handleConfirmBooking = (selectedSeats, paymentMethodId) => {
-        alert(`Payment successful! (ID: ${paymentMethodId})\n\nBooking confirmed for ${selectedMovie.title} at ${selectedShowtime.startTime} for seats: ${selectedSeats.join(', ')}`);
-        setShowSeatMap(false);
+    const handleConfirmBooking = async (selectedSeats, paymentMethodId) => {
+        try {
+            await createBooking({
+                showtimeId: selectedShowtime.id,
+                seats: selectedSeats,
+                paymentId: paymentMethodId
+            }, token);
+            alert(`Booking successful! Seats: ${selectedSeats.join(', ')}`);
+            setShowSeatMap(false);
+        } catch (error) {
+            alert(`Booking failed: ${error.message}`);
+        }
     };
 
     return (

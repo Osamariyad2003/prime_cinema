@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { fetchMovies } from '../services/api';
+import React, { useState, useEffect } from 'react';
+import { fetchShowtimes, createBooking } from '../services/api';
+import { useAuth } from '../context/AuthContext';
 import './Showtimes.css';
 import './MovieModal.css';
 import SeatSelection from './SeatSelection';
 import MovieModal from './MovieModal';
 
 const Showtimes = () => {
-    const [movies, setMovies] = useState([]);
+    const { token } = useAuth();
+    const [sessions, setSessions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedDate, setSelectedDate] = useState(0);
     const [selectedShowtime, setSelectedShowtime] = useState(null);
@@ -20,40 +22,40 @@ const Showtimes = () => {
     });
 
     useEffect(() => {
-        const loadMovies = async () => {
+        const loadSessions = async () => {
             setLoading(true);
             const targetDate = dates[selectedDate];
-            const data = await fetchMovies(targetDate);
-            setMovies(data);
-            setLoading(false);
+            try {
+                const data = await fetchShowtimes(targetDate);
+                setSessions(data);
+            } catch (error) {
+                console.error('Failed to load showtimes:', error);
+            } finally {
+                setLoading(false);
+            }
         };
-        loadMovies();
+        loadSessions();
     }, [selectedDate]);
 
-    // Flatten logic: Extract all showtime sessions from all movies into a single list
-    const sessions = movies.reduce((acc, movie) => {
-        if (!movie.showtimes || movie.showtimes.length === 0) return acc;
-
-        const movieSessions = movie.showtimes.map(st => ({
-            ...st,
-            movieTitle: movie.title,
-            moviePoster: movie.posterUrl,
-            cinemaName: st.screen?.cinema?.cinemaName || 'Unknown Cinema',
-            screenName: st.screen?.screenName || 'Standard Screen'
-        }));
-
-        return [...acc, ...movieSessions];
-    }, []).sort((a, b) => new Date(a.startTime) - new Date(b.startTime));
 
     const handleSeatClick = (session) => {
         setSelectedShowtime(session);
         setShowSeatMap(true);
     };
 
-    const handleConfirmBooking = (selectedSeats, paymentMethodId) => {
-        alert(`Payment successful! (ID: ${paymentMethodId})\n\nBooking confirmed for ${selectedShowtime.movieTitle} at ${new Date(selectedShowtime.startTime).toLocaleTimeString()} for seats: ${selectedSeats.join(', ')}`);
-        setShowSeatMap(false);
-        setSelectedShowtime(null);
+    const handleConfirmBooking = async (selectedSeats, paymentMethodId) => {
+        try {
+            await createBooking({
+                showtimeId: selectedShowtime.id,
+                seats: selectedSeats,
+                paymentId: paymentMethodId
+            }, token);
+            alert(`Booking successful! Seats: ${selectedSeats.join(', ')}`);
+            setShowSeatMap(false);
+            setSelectedShowtime(null);
+        } catch (error) {
+            alert(`Booking failed: ${error.message}`);
+        }
     };
 
 

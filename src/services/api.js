@@ -1,6 +1,6 @@
 const API_BASE_URL = window.location.hostname === 'localhost'
     ? 'http://localhost:4000/api'
-    : 'https://prime-cinema-backend.onrender.com/api';
+    : 'https://prime-cinema-backend-1.onrender.com/api';
 
 export const fetchMovies = async (date) => {
     try {
@@ -71,4 +71,33 @@ export const fetchMyBookings = async (token) => {
     const data = await response.json();
     if (!response.ok) throw new Error(data.error || 'Failed to fetch bookings');
     return data;
+};
+
+export const createBooking = async (bookingData, token) => {
+    const response = await fetch(`${API_BASE_URL}/bookings`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            ...(token && { 'Authorization': `Bearer ${token}` })
+        },
+        body: JSON.stringify(bookingData)
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || 'Failed to create booking');
+    return data;
+};
+
+export const fetchShowtimes = async (date) => {
+    const movies = await fetchMovies(date);
+    return movies.reduce((acc, movie) => {
+        if (!movie.showtimes) return acc;
+        const movieSessions = movie.showtimes.map(st => ({
+            ...st,
+            movieTitle: movie.title,
+            moviePoster: movie.posterUrl,
+            cinemaName: st.screen?.cinema?.cinemaName || 'Cinema',
+            screenName: st.screen?.screenName || 'Standard'
+        }));
+        return [...acc, ...movieSessions];
+    }, []).sort((a, b) => new Date(a.startTime) - new Date(b.startTime));
 };

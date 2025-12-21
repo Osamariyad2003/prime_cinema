@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import './MovieModal.css';
 import SeatSelection from './SeatSelection';
+import { createBooking } from '../services/api';
+import { useAuth } from '../context/AuthContext';
 
 const MovieModal = ({ movie, onClose }) => {
+    const { token } = useAuth();
     const [step, setStep] = useState('details'); // 'details' or 'seats'
     const [selectedShowtime, setSelectedShowtime] = useState(null);
 
@@ -18,9 +21,18 @@ const MovieModal = ({ movie, onClose }) => {
         }
     };
 
-    const handleConfirmBooking = (selectedSeats, paymentMethodId) => {
-        alert(`Payment successful! (ID: ${paymentMethodId})\n\nBooking confirmed for ${movie.title} at ${selectedShowtime.startTime} for seats: ${selectedSeats.join(', ')}`);
-        onClose();
+    const handleConfirmBooking = async (selectedSeats, paymentMethodId) => {
+        try {
+            await createBooking({
+                showtimeId: selectedShowtime.id,
+                seats: selectedSeats,
+                paymentId: paymentMethodId
+            }, token);
+            alert(`Booking successful! Seats: ${selectedSeats.join(', ')}`);
+            onClose();
+        } catch (error) {
+            alert(`Booking failed: ${error.message}`);
+        }
     };
 
     return (
