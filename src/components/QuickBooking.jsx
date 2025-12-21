@@ -69,8 +69,8 @@ const QuickBooking = () => {
         }
     };
 
-    const handleConfirmBooking = (selectedSeats) => {
-        alert(`Booking confirmed for ${selectedMovie.title} at ${selectedShowtime.startTime} for seats: ${selectedSeats.join(', ')}`);
+    const handleConfirmBooking = (selectedSeats, paymentMethodId) => {
+        alert(`Payment successful! (ID: ${paymentMethodId})\n\nBooking confirmed for ${selectedMovie.title} at ${selectedShowtime.startTime} for seats: ${selectedSeats.join(', ')}`);
         setShowSeatMap(false);
     };
 

@@ -50,8 +50,8 @@ const Showtimes = () => {
         setShowSeatMap(true);
     };
 
-    const handleConfirmBooking = (selectedSeats) => {
-        alert(`Booking confirmed for ${selectedShowtime.movieTitle} at ${new Date(selectedShowtime.startTime).toLocaleTimeString()} for seats: ${selectedSeats.join(', ')}`);
+    const handleConfirmBooking = (selectedSeats, paymentMethodId) => {
+        alert(`Payment successful! (ID: ${paymentMethodId})\n\nBooking confirmed for ${selectedShowtime.movieTitle} at ${new Date(selectedShowtime.startTime).toLocaleTimeString()} for seats: ${selectedSeats.join(', ')}`);
         setShowSeatMap(false);
         setSelectedShowtime(null);
     };

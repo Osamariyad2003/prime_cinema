@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import './SeatSelection.css';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import CheckoutForm from './CheckoutForm';
+import { STRIPE_PUBLISHABLE_KEY } from '../config/stripe';
+
+const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY);
 
 const SeatSelection = ({ showtime, onConfirm, onBack }) => {
     const [selectedSeats, setSelectedSeats] = useState([]);
     const [seats, setSeats] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [showPayment, setShowPayment] = useState(false);
 
     const rows = ['K', 'J', 'I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A'];
     const vRow = 'V';
@@ -67,6 +74,14 @@ const SeatSelection = ({ showtime, onConfirm, onBack }) => {
 
     const calculateTotal = () => {
         return selectedSeats.length * (showtime?.price || 10);
+    };
+
+    const handleConfirmSeats = () => {
+        setShowPayment(true);
+    };
+
+    const handlePaymentSuccess = (paymentMethodId) => {
+        onConfirm(selectedSeats, paymentMethodId);
     };
 
     if (loading) return <div className="loading">Loading seat map...</div>;
@@ -143,12 +158,28 @@ const SeatSelection = ({ showtime, onConfirm, onBack }) => {
                     <button
                         className="confirm-booking-btn"
                         disabled={selectedSeats.length === 0}
-                        onClick={() => onConfirm(selectedSeats)}
+                        onClick={handleConfirmSeats}
                     >
                         Confirm Booking
                     </button>
                 </div>
             </div>
+
+            {showPayment && (
+                <div className="payment-overlay">
+                    <div className="payment-modal">
+                        <Elements stripe={stripePromise}>
+                            <CheckoutForm
+                                amount={calculateTotal()}
+                                movieTitle={showtime?.movieTitle || 'Movie Ticket'}
+                                seats={selectedSeats}
+                                onSuccess={handlePaymentSuccess}
+                                onCancel={() => setShowPayment(false)}
+                            />
+                        </Elements>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

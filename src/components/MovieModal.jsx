@@ -18,8 +18,8 @@ const MovieModal = ({ movie, onClose }) => {
         }
     };
 
-    const handleConfirmBooking = (selectedSeats) => {
-        alert(`Booking confirmed for ${movie.title} at ${selectedShowtime.startTime} for seats: ${selectedSeats.join(', ')}`);
+    const handleConfirmBooking = (selectedSeats, paymentMethodId) => {
+        alert(`Payment successful! (ID: ${paymentMethodId})\n\nBooking confirmed for ${movie.title} at ${selectedShowtime.startTime} for seats: ${selectedSeats.join(', ')}`);
         onClose();
     };
 
