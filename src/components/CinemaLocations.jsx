@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useGeolocated } from "react-geolocated"; // Import hook
 import { fetchCinemas } from '../services/api';
 import './CinemaLocations.css';
+import { getRandomImages } from '../services/unsplash';
 
 const CinemaLocations = () => {
     const [cinemas, setCinemas] = useState([]);
@@ -10,6 +11,7 @@ const CinemaLocations = () => {
     const [sortedCinemas, setSortedCinemas] = useState([]);
     const [expandedCinemaId, setExpandedCinemaId] = useState(null);
     const [status, setStatus] = useState('');
+    const [cinemaImgs, setCinemaImgs] = useState([]);
 
     // Use the hook to get location
     const { coords, isGeolocationAvailable, isGeolocationEnabled } =
@@ -26,6 +28,12 @@ const CinemaLocations = () => {
             setCinemas(data);
             setSortedCinemas(data);
             setLoading(false);
+
+            // Fetch dynamic images for each cinema
+            if (data.length > 0) {
+                const imgs = await getRandomImages('modern cinema building', data.length);
+                setCinemaImgs(imgs);
+            }
         };
         loadCinemas();
     }, []);
@@ -85,10 +93,10 @@ const CinemaLocations = () => {
             </div>
 
             <div className="locations-grid">
-                {sortedCinemas.map(cinema => (
+                {sortedCinemas.map((cinema, index) => (
                     <div key={cinema.id} className="location-card" style={cinema.distance !== undefined ? { border: '1px solid var(--gold)' } : {}}>
                         <div className="location-image">
-                            <img src={`https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=500&q=80&sig=${cinema.id}`} alt={cinema.cinemaName} />
+                            <img src={cinemaImgs[index] || `https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=500&q=80&sig=${cinema.id}`} alt={cinema.cinemaName} />
                         </div>
                         <h3 className="location-name">{cinema.cinemaName}</h3>
                         <p className="location-address">

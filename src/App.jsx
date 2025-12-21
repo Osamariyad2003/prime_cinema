@@ -11,6 +11,7 @@ import LoyaltySection from './components/LoyaltySection';
 import Footer from './components/Footer';
 import HomeInfo from './components/HomeInfo';
 import EventsExperiences from './components/EventsExperiences';
+import CinematicGallery from './components/CinematicGallery';
 
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Login from './components/Login';
@@ -23,6 +24,7 @@ const Home = () => (
     <QuickBooking />
     <MovieGrid />
     <EventsExperiences />
+    <CinematicGallery />
     <LoyaltySection />
     <CinemaLocations />
     <HomeInfo />

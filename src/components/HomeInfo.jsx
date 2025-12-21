@@ -1,13 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './HomeInfo.css';
+import { getRandomImage, getRandomImages } from '../services/unsplash';
 
 const HomeInfo = () => {
+    const [aboutImg, setAboutImg] = useState('');
+    const [cardImgs, setCardImgs] = useState([]);
+
+    useEffect(() => {
+        const loadImages = async () => {
+            const mainImg = await getRandomImage('cinema theater luxery');
+            const gridImgs = await getRandomImages('movie theater popcorn', 4);
+            setAboutImg(mainImg);
+            setCardImgs(gridImgs);
+        };
+        loadImages();
+    }, []);
+
     return (
         <section className="home-info">
             <div className="container">
                 <div className="about-container">
                     <div className="about-image">
-                        <img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=1200" alt="Cinematic Experience" />
+                        <img src={aboutImg || "https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=1200"} alt="Cinematic Experience" />
                     </div>
                     <div className="about-content">
                         <h2 className="about-title">The Prime Experience</h2>
@@ -25,7 +39,7 @@ const HomeInfo = () => {
                 <div className="info-grid">
                     <div className="info-card">
                         <div className="info-image-wrapper">
-                            <img src="https://images.unsplash.com/photo-1517604401157-5c57174db04c?w=500&q=80" alt="Screens" />
+                            <img src={cardImgs[0] || "https://images.unsplash.com/photo-1517604401157-5c57174db04c?w=500&q=80"} alt="Screens" />
                         </div>
                         <h3 className="info-title">Premium Screens</h3>
                         <p className="info-desc">
@@ -36,7 +50,7 @@ const HomeInfo = () => {
 
                     <div className="info-card">
                         <div className="info-image-wrapper">
-                            <img src="https://images.unsplash.com/photo-1505686994434-e3cc5abf1330?w=500&q=80" alt="Sound" />
+                            <img src={cardImgs[1] || "https://images.unsplash.com/photo-1505686994434-e3cc5abf1330?w=500&q=80"} alt="Sound" />
                         </div>
                         <h3 className="info-title">Immersive Sound</h3>
                         <p className="info-desc">
@@ -47,7 +61,7 @@ const HomeInfo = () => {
 
                     <div className="info-card">
                         <div className="info-image-wrapper">
-                            <img src="https://images.unsplash.com/photo-1585647347483-22b66260dfff?w=500&q=80" alt="Popcorn" />
+                            <img src={cardImgs[2] || "https://images.unsplash.com/photo-1585647347483-22b66260dfff?w=500&q=80"} alt="Popcorn" />
                         </div>
                         <h3 className="info-title">Gourmet Concessions</h3>
                         <p className="info-desc">
@@ -58,7 +72,7 @@ const HomeInfo = () => {
 
                     <div className="info-card">
                         <div className="info-image-wrapper">
-                            <img src="https://images.unsplash.com/photo-1596727147705-61a532a659bd?w=500&q=80" alt="VIP" />
+                            <img src={cardImgs[3] || "https://images.unsplash.com/photo-1596727147705-61a532a659bd?w=500&q=80"} alt="VIP" />
                         </div>
                         <h3 className="info-title">VIP Service</h3>
                         <p className="info-desc">

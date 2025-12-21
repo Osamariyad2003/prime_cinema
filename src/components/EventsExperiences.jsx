@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './EventsExperiences.css';
+import { getRandomImage } from '../services/unsplash';
 
 const experiences = [
     {
@@ -58,6 +59,19 @@ const experiences = [
 
 const EventsExperiences = () => {
     const [activeTab, setActiveTab] = useState('star');
+    const [dynamicImgs, setDynamicImgs] = useState({});
+
+    useEffect(() => {
+        const loadImages = async () => {
+            const results = {};
+            for (const exp of experiences) {
+                // Combine experience name with 'cinema' for better relevance
+                results[exp.id] = await getRandomImage(`${exp.name} cinema luxury`);
+            }
+            setDynamicImgs(results);
+        };
+        loadImages();
+    }, []);
 
     const activeExp = experiences.find(e => e.id === activeTab) || experiences[3];
 
@@ -81,7 +95,7 @@ const EventsExperiences = () => {
 
                 <div className="experience-content" key={activeExp.id}>
                     <div className="exp-image-container">
-                        <img src={activeExp.image} alt={activeExp.name} />
+                        <img src={dynamicImgs[activeExp.id] || activeExp.image} alt={activeExp.name} />
                     </div>
                     <div className="exp-text-container">
                         <span className="exp-badge">{activeExp.badge}</span>

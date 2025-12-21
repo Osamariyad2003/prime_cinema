@@ -1,20 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './Hero.css';
+import { getRandomImage } from '../services/unsplash';
 
 const Hero = () => {
+    const [heroImg, setHeroImg] = useState('');
+
+    useEffect(() => {
+        const loadHeroImg = async () => {
+            const img = await getRandomImage('cinema theater empty background');
+            setHeroImg(img);
+        };
+        loadHeroImg();
+    }, []);
+
     return (
         <section className="hero">
-            <video
-                className="hero-video-bg"
-                autoPlay
-                loop
-                muted
-                playsInline
-                poster="https://images.unsplash.com/photo-1517604931442-71053e6e2619?q=80&w=2560"
-            >
-                <source src="https://assets.mixkit.co/videos/preview/mixkit-cinema-screen-in-a-dark-room-4050-large.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-            </video>
+            <div
+                className="hero-image-bg"
+                style={{
+                    backgroundImage: `url(${heroImg || 'https://images.unsplash.com/photo-1517604931442-71053e6e2619?q=80&w=2560'})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%'
+                }}
+            ></div>
             <div className="hero-overlay"></div>
             <div className="hero-content container fade-in">
                 <span className="hero-subtitle">NOW SHOWING</span>
