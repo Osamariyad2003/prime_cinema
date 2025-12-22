@@ -203,11 +203,15 @@
     display: flex;
     align-items: center;
     gap: 12px;
+    margin-bottom: 10px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
 }
 
 .loyalty-perks li i {
-    color: var(--red);
+    color: var(--gold);
     font-size: 1.2rem;
+    margin-right: 6px;
 }
 
 .loyalty-btn {
@@ -231,6 +235,37 @@
     background: var(--red);
     color: var(--white);
     transform: translateY(-3px);
+}
+
+/* Tier-based card backgrounds */
+.card-tier-standard {
+    background: linear-gradient(135deg, #222 0%, #444 100%);
+    border: 1px solid #888;
+}
+
+.card-tier-gold {
+    background: linear-gradient(135deg, #ffd700 0%, #fffbe6 100%);
+    border: 1px solid #ffd700;
+    color: #222;
+}
+
+.card-tier-platinum {
+    background: linear-gradient(135deg, #e5e4e2 0%, #fff 100%);
+    border: 1px solid #b0b0b0;
+    color: #222;
+}
+
+.card-points {
+    position: absolute;
+    bottom: 18px;
+    right: 30px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--gold);
+    background: rgba(0, 0, 0, 0.2);
+    padding: 4px 12px;
+    border-radius: 6px;
+    letter-spacing: 1px;
 }
 
 @media (max-width: 968px) {
