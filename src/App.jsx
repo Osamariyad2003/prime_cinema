@@ -71,42 +71,32 @@ function App() {
         <main style={{ minHeight: 'calc(100vh - 200px)' }}>
           <Routes>
             {/* Home */}
-            <Route path="/" element={<Home />} />
             <Route path="/prime_cinema" element={<Home />} />
 
             {/* Movies */}
-            <Route path="/movies" element={<MoviesPage />} />
             <Route path="/prime_cinema/movies" element={<MoviesPage />} />
 
             {/* Showtimes */}
-            <Route path="/showtimes" element={<Showtimes />} />
             <Route path="/prime_cinema/showtimes" element={<Showtimes />} />
 
             {/* Locations */}
-            <Route path="/locations" element={<LocationsPage />} />
             <Route path="/prime_cinema/locations" element={<LocationsPage />} />
 
             {/* Loyalty */}
-            <Route path="/club" element={<LoyaltyPage />} />
             <Route path="/prime_cinema/club" element={<LoyaltyPage />} />
 
             {/* Experiences */}
-            <Route path="/experiences" element={<ExperiencesPage />} />
             <Route path="/prime_cinema/experiences" element={<ExperiencesPage />} />
 
             {/* Events */}
-            <Route path="/events" element={<EventsPage />} />
             <Route path="/prime_cinema/events" element={<EventsPage />} />
 
             {/* Contact */}
-            <Route path="/contact" element={<ContactPage />} />
             <Route path="/prime_cinema/contact" element={<ContactPage />} />
 
             {/* Auth */}
-            <Route path="/login" element={<Login />} />
             <Route path="/prime_cinema/login" element={<Login />} />
 
-            <Route path="/register" element={<Register />} />
             <Route path="/prime_cinema/register" element={<Register />} />
 
             {/* Dashboard (protected) */}
