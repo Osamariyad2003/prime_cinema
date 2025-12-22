@@ -71,37 +71,37 @@ function App() {
         <main style={{ minHeight: 'calc(100vh - 200px)' }}>
           <Routes>
             {/* Home */}
-            <Route path="/prime_cinem" element={<Home />} />
+            <Route path="/prime_cinema" element={<Home />} />
 
             {/* Movies */}
-            <Route path="/prime_cinem/movies" element={<MoviesPage />} />
+            <Route path="/prime_cinema/movies" element={<MoviesPage />} />
 
             {/* Showtimes */}
-            <Route path="/prime_cinem/showtimes" element={<Showtimes />} />
+            <Route path="/prime_cinema/showtimes" element={<Showtimes />} />
 
             {/* Locations */}
-            <Route path="/prime_cinem/locations" element={<LocationsPage />} />
+            <Route path="/prime_cinema/locations" element={<LocationsPage />} />
 
             {/* Loyalty */}
-            <Route path="/prime_cinem/club" element={<LoyaltyPage />} />
+            <Route path="/prime_cinema/club" element={<LoyaltyPage />} />
 
             {/* Experiences */}
-            <Route path="/prime_cinem/experiences" element={<ExperiencesPage />} />
+            <Route path="/prime_cinema/experiences" element={<ExperiencesPage />} />
 
             {/* Events */}
-            <Route path="/prime_cinem/events" element={<EventsPage />} />
+            <Route path="/prime_cinema/events" element={<EventsPage />} />
 
             {/* Contact */}
-            <Route path="/prime_cinem/contact" element={<ContactPage />} />
+            <Route path="/prime_cinema/contact" element={<ContactPage />} />
 
             {/* Auth */}
-            <Route path="/prime_cinem/login" element={<Login />} />
+            <Route path="/prime_cinema/login" element={<Login />} />
 
-            <Route path="/prime_cinem/register" element={<Register />} />
+            <Route path="/prime_cinema/register" element={<Register />} />
 
             {/* Dashboard (protected) */}
             <Route
-              path="/prime_cinem/dashboard"
+              path="/prime_cinema/dashboard"
               element={
                 <ProtectedRoute>
                   <UserDashboard />

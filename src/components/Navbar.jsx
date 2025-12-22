@@ -15,19 +15,19 @@ const Navbar = () => {
 
                 {/* Logo */}
                 <h1 className="logo">
-                    <Link to="/prime_cinem" style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <Link to="/prime_cinema" style={{ textDecoration: 'none', color: 'inherit' }}>
                         <em>PRIME CINEMAS</em>
                     </Link>
                 </h1>
 
                 {/* Centered Navigation */}
                 <ul className="navbar-menu">
-                    <li><Link to="/prime_cinem/movies">MOVIES</Link></li>
-                    <li><Link to="/prime_cinem/club">LOYALTY</Link></li>
-                    <li><Link to="/prime_cinem/locations">LOCATIONS</Link></li>
-                    <li><Link to="/prime_cinem/showtimes">SHOWTIMES</Link></li>
-                    <li><Link to="/prime_cinem/events">EVENTS</Link></li>
-                    <li><Link to="/prime_cinem/contact">CONTACT</Link></li>
+                    <li><Link to="/prime_cinema/movies">MOVIES</Link></li>
+                    <li><Link to="/prime_cinema/club">LOYALTY</Link></li>
+                    <li><Link to="/prime_cinema/locations">LOCATIONS</Link></li>
+                    <li><Link to="/prime_cinema/showtimes">SHOWTIMES</Link></li>
+                    <li><Link to="/prime_cinema/events">EVENTS</Link></li>
+                    <li><Link to="/prime_cinema/contact">CONTACT</Link></li>
                 </ul>
 
                 {/* Right Actions */}
