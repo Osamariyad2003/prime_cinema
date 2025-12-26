@@ -6,6 +6,6 @@ export default defineConfig({
   plugins: [react()],
   base: '/prime_cinema/',
   server: {
-    port: 6000,
+    port: 9000,
   },
 })

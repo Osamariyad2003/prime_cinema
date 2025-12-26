@@ -1,6 +1,4 @@
-const API_BASE_URL = window.location.hostname === 'localhost'
-    ? 'http://localhost:4000/api'
-    : 'https://prime-cinema-backend-1.onrender.com/api';
+const API_BASE_URL = window.location.hostname = 'https://prime-cinema-backend-1.onrender.com/api';
 
 export const fetchMovies = async (date) => {
     try {

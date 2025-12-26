@@ -1,3 +1,56 @@
+@media (max-width: 600px) {
+    .showtimes-header-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding-bottom: 8px;
+    }
+
+    .page-title {
+        font-size: 1.2rem;
+    }
+
+    .date-card {
+        min-width: 60px;
+        font-size: 0.8rem;
+        padding: 8px 4px;
+    }
+
+    .sessions-grid {
+        gap: 0;
+    }
+
+    .session-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 12px 0;
+    }
+
+    .session-main {
+        gap: 8px;
+    }
+
+    .session-movie-title {
+        font-size: 1rem;
+    }
+
+    .session-location {
+        font-size: 0.7rem;
+    }
+
+    .session-footer {
+        gap: 8px;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .btn-seats {
+        width: 100%;
+        padding: 8px 0;
+    }
+}
+
 /* Main Page Layout */
 .showtimes-page {
     background-color: var(--black);

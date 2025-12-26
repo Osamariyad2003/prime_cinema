@@ -1,3 +1,37 @@
+@media (max-width: 600px) {
+    .experiences-section {
+        padding: 24px 0;
+    }
+
+    .experiences-title {
+        font-size: 1.2rem;
+    }
+
+    .experience-content {
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 24px;
+    }
+
+    .exp-image-container img {
+        height: 120px;
+    }
+
+    .exp-name {
+        font-size: 1.1rem;
+        margin-bottom: 8px;
+    }
+
+    .exp-description {
+        font-size: 0.95rem;
+        margin-bottom: 10px;
+    }
+
+    .exp-features {
+        margin-bottom: 12px;
+    }
+}
+
 .experiences-section {
     background: #000;
     padding: 80px 0;

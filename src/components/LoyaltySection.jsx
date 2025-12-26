@@ -29,8 +29,22 @@ const LoyaltySection = () => {
     return (
         <section className="loyalty-section" id="club">
             <div className="container loyalty-container">
-                <div className="loyalty-card-visual">
-                    <div className={`card-front card-tier-${tier.toLowerCase()}`}>
+                <div
+                    className="loyalty-card-visual"
+                    tabIndex={0}
+                    aria-label={`Loyalty card: ${tier} tier, ${points} points`}
+                    onKeyDown={e => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.currentTarget.classList.add('active-card');
+                        }
+                    }}
+                    onKeyUp={e => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.currentTarget.classList.remove('active-card');
+                        }
+                    }}
+                >
+                    <div className={`card-front card-tier-${tier.toLowerCase()}`} tabIndex={-1}>
                         <div className="card-logo">PRIME CLUB</div>
                         <div className="card-chip"></div>
                         <div className="card-number">
@@ -57,11 +71,18 @@ const LoyaltySection = () => {
                     </p>
                     <ul className="loyalty-perks">
                         {tierBenefits[tier].map((perk, idx) => (
-                            <li key={idx}><i>★</i> {perk}</li>
+                            <li key={idx} tabIndex={0} className="perk-item"><i>★</i> {perk}</li>
                         ))}
                     </ul>
                     {!user && (
-                        <Link to="/register" className="btn btn-primary loyalty-btn">
+                        <Link
+                            to="/register"
+                            className="btn btn-primary loyalty-btn"
+                            tabIndex={0}
+                            onMouseDown={e => e.currentTarget.classList.add('active')}
+                            onMouseUp={e => e.currentTarget.classList.remove('active')}
+                            onBlur={e => e.currentTarget.classList.remove('active')}
+                        >
                             Join The Club
                         </Link>
                     )}

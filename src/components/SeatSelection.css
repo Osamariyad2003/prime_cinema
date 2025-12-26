@@ -172,6 +172,7 @@
 .confirm-booking-btn {
     background: var(--red);
     color: white;
+    -webkit-text-fill-color: #b10710;
     border: none;
     padding: 15px 40px;
     font-size: 1rem;
@@ -189,7 +190,6 @@
 
 .confirm-booking-btn:not(:disabled):hover {
     background: #b10710;
-    transform: translateY(-2px);
 }
 
 /* Payment Overlay */

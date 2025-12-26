@@ -61,8 +61,15 @@
     transition: color 0.3s ease;
 }
 
-.navbar-menu a:hover {
+/* Menu link hover, focus, active */
+.navbar-menu a:hover,
+.navbar-menu a:focus,
+.navbar-menu a.focus {
     color: var(--red);
+    outline: 2px solid var(--red);
+    outline-offset: 2px;
+    background: rgba(255, 0, 0, 0.05);
+    border-radius: 4px;
 }
 
 /* Actions */
@@ -85,9 +92,22 @@
     transition: all 0.3s ease;
 }
 
-.navbar-actions .btn:hover {
+/* Button hover, focus, active */
+.navbar-actions .btn:hover,
+.navbar-actions .btn:focus,
+.navbar-actions .btn.active {
     background-color: var(--red);
     color: var(--white);
+    outline: 2px solid var(--red);
+    outline-offset: 2px;
+}
+
+.logo-link:focus,
+.logo-link.focus {
+    outline: 2px solid var(--red);
+    outline-offset: 2px;
+    background: rgba(255, 0, 0, 0.05);
+    border-radius: 4px;
 }
 
 /* Mobile Responsive */

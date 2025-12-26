@@ -1,3 +1,54 @@
+@media (max-width: 600px) {
+    .loyalty-section {
+        padding: 40px 0;
+    }
+
+    .loyalty-container {
+        flex-direction: column;
+        gap: 24px;
+        padding: 0 8px;
+    }
+
+    .loyalty-card-visual {
+        height: 180px;
+        min-height: 0;
+    }
+
+    .card-front {
+        width: 100%;
+        max-width: 320px;
+        height: 140px;
+        padding: 16px;
+        font-size: 0.8rem;
+    }
+
+    .loyalty-content {
+        padding-left: 0;
+        text-align: center;
+    }
+
+    .loyalty-title {
+        font-size: 1.5rem;
+    }
+
+    .loyalty-desc {
+        font-size: 1rem;
+        margin-bottom: 24px;
+        max-width: 100%;
+    }
+
+    .loyalty-perks {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .loyalty-btn {
+        width: 100%;
+        padding: 12px 0;
+        font-size: 1rem;
+    }
+}
+
 .loyalty-section {
     padding: 120px 0;
     background: var(--black);
@@ -60,12 +111,17 @@
     transform-style: preserve-3d;
 }
 
-.loyalty-card-visual:hover .card-front {
+/* Card hover/focus/active */
+.loyalty-card-visual:hover .card-front,
+.loyalty-card-visual:focus .card-front,
+.loyalty-card-visual.active-card .card-front {
     transform: rotateY(0deg) rotateX(0deg) scale(1.05) translateY(-10px);
     box-shadow:
         0 40px 80px rgba(0, 0, 0, 0.9),
         0 0 0 2px rgba(255, 255, 255, 0.3),
         0 0 50px rgba(255, 255, 255, 0.1);
+    outline: 2px solid var(--red);
+    outline-offset: 2px;
 }
 
 /* Holographic Shine */
@@ -185,8 +241,10 @@
     color: var(--gray);
     margin-bottom: 40px;
     line-height: 1.7;
-    max-width: 500px;
+    -webkit-background-clip: text;
+    background-clip: text;
 }
+
 
 .loyalty-perks {
     list-style: none;
@@ -231,11 +289,37 @@
     transition: all 0.3s;
 }
 
-.loyalty-btn:hover {
+/* Button hover, focus, active */
+.loyalty-btn:hover,
+.loyalty-btn:focus {
     background: var(--red);
     color: var(--white);
     transform: translateY(-3px);
+    outline: 2px solid var(--red);
+    outline-offset: 2px;
 }
+
+.loyalty-btn.active,
+.loyalty-btn:active {
+    background: #b3001b;
+    color: var(--white);
+    transform: translateY(1px) scale(0.98);
+}
+
+.perk-item {
+    transition: background 0.2s, color 0.2s, transform 0.2s;
+    border-radius: 6px;
+}
+
+.perk-item:hover,
+.perk-item:focus {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--gold);
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+    transform: scale(1.04);
+}
+
 
 /* Tier-based card backgrounds */
 .card-tier-standard {

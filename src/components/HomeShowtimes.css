@@ -1,3 +1,27 @@
+@media (max-width: 600px) {
+    .home-showtimes {
+        padding: 24px 0;
+    }
+
+    .showtimes-scroll {
+        gap: 8px;
+        padding: 8px 0;
+    }
+
+    .home-session-card {
+        flex: 0 0 180px;
+        padding: 10px;
+        border-radius: 8px;
+        font-size: 0.9rem;
+    }
+
+    .session-time {
+        font-size: 1rem;
+        min-width: 60px;
+        padding: 6px;
+    }
+}
+
 .home-showtimes {
     padding: 60px 0;
     background: #050505;

@@ -48,6 +48,34 @@
     gap: 30px;
 }
 
+@media (max-width: 600px) {
+    .movie-section {
+        padding: 24px 4px;
+    }
+
+    .section-title {
+        font-size: 1.2rem;
+        margin-bottom: 12px;
+    }
+
+    .movie-tabs {
+        margin-bottom: 16px;
+    }
+
+    .movie-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 32px;
+        padding: 2rem 0;
+    }
+
+    .empty-state {
+        font-size: 1rem;
+        padding: 16px;
+    }
+}
+
+
 .loading,
 .empty-state {
     text-align: center;

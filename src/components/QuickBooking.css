@@ -1,3 +1,26 @@
+@media (max-width: 600px) {
+    .quick-booking-container {
+        margin-top: 0;
+        padding: 8px;
+    }
+
+    .quick-booking-bar {
+        flex-direction: column;
+        gap: 8px;
+        padding: 8px;
+    }
+
+    .qb-item {
+        min-width: 0;
+    }
+
+    .btn-qb {
+        width: 100%;
+        margin-top: 8px;
+        padding: 10px 0;
+    }
+}
+
 .quick-booking-container {
     margin-top: -40px;
     position: relative;

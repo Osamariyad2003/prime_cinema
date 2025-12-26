@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import MovieCard from './MovieCard';
 import MovieModal from './MovieModal';
 import SkeletonCard from './SkeletonCard';
@@ -32,20 +32,30 @@ const MovieGrid = () => {
         ? movies.filter(movie => movie.isReleased === true)
         : movies.filter(movie => movie.isReleased === false);
 
+    // Memoize MovieCard for performance
+    const MemoMovieCard = React.memo(MovieCard);
+    const handleMovieClick = useCallback((movie) => setSelectedMovie(movie), []);
+
     return (
         <section className="movie-section container" id="movies">
             <div className="section-header">
                 <h2 className="section-title">Cinematic Lineup</h2>
-                <div className="movie-tabs">
+                <div className="movie-tabs" role="tablist">
                     <button
                         className={`tab-btn ${activeTab === 'showing' ? 'active' : ''}`}
                         onClick={() => setActiveTab('showing')}
+                        role="tab"
+                        aria-selected={activeTab === 'showing'}
+                        tabIndex={activeTab === 'showing' ? 0 : -1}
                     >
                         Now Showing
                     </button>
                     <button
                         className={`tab-btn ${activeTab === 'coming' ? 'active' : ''}`}
                         onClick={() => setActiveTab('coming')}
+                        role="tab"
+                        aria-selected={activeTab === 'coming'}
+                        tabIndex={activeTab === 'coming' ? 0 : -1}
                     >
                         Coming Soon
                     </button>
@@ -62,10 +72,10 @@ const MovieGrid = () => {
                 <div className="movie-grid">
                     {displayedMovies.length > 0 ? (
                         displayedMovies.map(movie => (
-                            <MovieCard
+                            <MemoMovieCard
                                 key={movie.id}
                                 movie={movie}
-                                onClick={setSelectedMovie}
+                                onClick={handleMovieClick}
                             />
                         ))
                     ) : (
