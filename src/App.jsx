@@ -92,6 +92,8 @@ function App() {
             <Route path="/showtimes" element={<Showtimes />} />
             <Route path="/locations" element={<CinemaLocations />} />
             <Route path="/club" element={<LoyaltySection />} />
+            <Route path="/foods-bar" element={<FoodsBar />} />
+            <Route path="/sports" element={<Sports />} />
             <Route path="/events" element={<EventsExperiences />} />
             <Route path="/contact" element={<HomeInfo />} />
             <Route path="/login" element={<Login />} />
