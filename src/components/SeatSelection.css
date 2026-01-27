@@ -1,62 +1,45 @@
 .seat-selection-container {
-    background: #fff;
-    color: #333;
-    padding: 30px;
-    border-radius: 8px;
-    max-width: 1000px;
-    margin: 0 auto;
-    font-family: 'Montserrat', sans-serif;
+    background: transparent;
+    color: var(--white);
+    padding: 0;
+    max-width: 100%;
 }
 
-.seat-legend {
+.seat-map-wrapper {
+    background: #000;
+    padding: 20px 0;
+    border-radius: 8px;
+    border: 1px solid #222;
+    overflow: hidden;
+    /* Main container hides, inner scrolls */
+}
+
+/* Scroll container for mobile */
+.seats-scroll-container {
+    overflow-x: auto;
+    padding-bottom: 20px;
     display: flex;
     justify-content: center;
-    gap: 30px;
-    margin-bottom: 40px;
-}
-
-.legend-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 0.9rem;
-    font-weight: 500;
-}
-
-.legend-box {
-    width: 24px;
-    height: 24px;
-    border-radius: 2px;
-}
-
-.legend-box.your-seat {
-    background-color: var(--red);
-}
-
-.legend-box.available {
-    background-color: #555;
-}
-
-.legend-box.sold {
-    background-color: #ccc;
+    min-width: 100%;
 }
 
 .screen-container {
-    margin: 0 auto 50px;
-    width: 80%;
+    margin: 0 auto 40px;
+    width: 60%;
     text-align: center;
 }
 
 .screen-bar {
-    height: 12px;
-    background: #222;
+    height: 8px;
+    background: linear-gradient(to right, transparent, #555, transparent);
     width: 100%;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
 }
 
 .screen-text {
-    font-size: 0.75rem;
-    color: #888;
+    font-size: 0.7rem;
+    color: #444;
     text-transform: uppercase;
     letter-spacing: 2px;
 }
@@ -64,175 +47,155 @@
 .seats-grid {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 8px;
     align-items: center;
+    padding: 0 40px;
+    /* Padding for scroll */
 }
 
 .seat-row {
     display: flex;
-    gap: 4px;
+    gap: 6px;
     align-items: center;
 }
 
 .row-label {
-    width: 25px;
-    font-size: 0.8rem;
+    width: 20px;
+    font-size: 0.7rem;
     font-weight: 700;
-    color: #333;
+    color: #444;
     text-align: center;
 }
 
+/* Improved Seat Look (Armchair-ish curve) */
 .seat {
-    width: 24px;
-    height: 24px;
-    background-color: #555;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.6rem;
-    font-weight: 600;
+    width: 22px;
+    height: 22px;
+    background-color: #333;
+    border-radius: 6px 6px 2px 2px;
+    /* Top rounded */
     cursor: pointer;
-    border-radius: 2px;
     transition: all 0.2s ease;
-    user-select: none;
+    border-bottom: 3px solid #222;
+    position: relative;
 }
 
-.seat:hover {
-    background-color: #777;
-}
-
-.seat.sold {
-    background-color: #ccc;
-    color: #888;
-    cursor: not-allowed;
+.seat:hover:not(.sold) {
+    background-color: #555;
+    border-bottom-color: #444;
 }
 
 .seat.selected {
     background-color: var(--red);
-    color: #fff;
-    transform: scale(1.1);
+    border-bottom-color: #b10710;
     box-shadow: 0 0 10px rgba(229, 9, 20, 0.4);
+    transform: translateY(-2px);
+}
+
+.seat.sold {
+    background-color: #222;
+    border-bottom-color: #111;
+    cursor: not-allowed;
+    opacity: 0.5;
 }
 
 .row-v {
-    margin-top: 25px;
+    margin-top: 30px;
 }
 
-.row-v .seat {
-    width: 50px;
-    height: 45px;
-    border: 3px solid #f57c00;
-    background-color: transparent;
-    color: #333;
-    font-size: 1rem;
+.seat-vip {
+    width: 40px;
+    height: 35px;
+    border: 1px solid #f57c00;
+    background: rgba(245, 124, 0, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #f57c00;
 }
 
-.row-v .seat:hover {
-    background-color: rgba(245, 124, 0, 0.1);
+.seat-vip.selected {
+    background: #f57c00;
+    color: white;
 }
 
-.row-v .seat.selected {
-    background-color: #f57c00;
-    color: #fff;
-}
-
-.row-v .seat.sold {
-    border-color: #ccc;
-    color: #ccc;
-}
-
+/* Booking Footer */
 .booking-footer {
-    margin-top: 50px;
-    border-top: 1px solid #eee;
-    padding-top: 25px;
+    margin-top: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background: var(--black-card);
+    padding: 20px;
+    border-radius: 0 0 8px 8px;
 }
 
-.selected-info h4 {
-    font-size: 0.9rem;
-    color: #666;
-    margin-bottom: 5px;
+.selected-info,
+.pricing-info {
+    display: flex;
+    flex-direction: column;
 }
 
-.selected-seats-list {
-    font-size: 1.2rem;
-    font-weight: 800;
-    color: var(--black);
+.info-label {
+    font-size: 0.75rem;
+    color: var(--gray);
+    text-transform: uppercase;
+}
+
+.info-value {
+    font-size: 1rem;
+    color: var(--white);
+    font-weight: 600;
 }
 
 .total-price {
-    font-size: 1.5rem;
-    font-weight: 900;
+    font-size: 1.4rem;
     color: var(--red);
+    font-weight: 700;
+}
+
+.seat-legend {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin: 20px 0;
+}
+
+.legend-box {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+}
+
+.legend-box.available {
+    background: #333;
+}
+
+.legend-box.selected {
+    background: var(--red);
+}
+
+.legend-box.sold {
+    background: #222;
+    border: 1px solid #333;
 }
 
 .confirm-booking-btn {
     background: var(--red);
     color: white;
-    -webkit-text-fill-color: #b10710;
     border: none;
-    padding: 15px 40px;
-    font-size: 1rem;
+    padding: 12px 32px;
     font-weight: 700;
     text-transform: uppercase;
-    cursor: pointer;
     border-radius: 4px;
-    transition: all 0.3s ease;
+    cursor: pointer;
+    transition: all 0.2s;
 }
 
 .confirm-booking-btn:disabled {
-    background: #ccc;
+    background: #333;
+    color: #666;
     cursor: not-allowed;
-}
-
-.confirm-booking-btn:not(:disabled):hover {
-    background: #b10710;
-}
-
-/* Payment Overlay */
-.payment-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.85);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    backdrop-filter: blur(5px);
-    border-radius: 8px;
-    animation: fadeIn 0.3s ease;
-}
-
-.payment-modal {
-    width: 90%;
-    max-width: 500px;
-    animation: slideUp 0.4s ease;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes slideUp {
-    from {
-        transform: translateY(20px);
-        opacity: 0;
-    }
-
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
 }

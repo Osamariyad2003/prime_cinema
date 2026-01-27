@@ -1,4 +1,4 @@
-const API_BASE_URL = window.location.hostname = 'https://prime-cinema-backend-1.onrender.com/api';
+const API_BASE_URL = 'https://prime-cinema-backend-1.onrender.com/api';
 
 export const fetchMovies = async (date) => {
     try {
@@ -12,6 +12,17 @@ export const fetchMovies = async (date) => {
     } catch (error) {
         console.error('Error fetching movies:', error);
         return [];
+    }
+};
+
+export const fetchMovieById = async (id) => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/movies/${id}`);
+        if (!response.ok) throw new Error('Failed to fetch movie details');
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching movie details:', error);
+        return null;
     }
 };
 

@@ -40,6 +40,7 @@ const QuickBooking = () => {
     const availableDates = selectedMovie?.showtimes && selectedCinemaId
         ? [...new Set(selectedMovie.showtimes
             .filter(st => st.screen?.cinema?.id === parseInt(selectedCinemaId))
+            .filter(st => new Date(st.startTime).setHours(0, 0, 0, 0) >= new Date().setHours(0, 0, 0, 0))
             .map(st => st.startTime.split('T')[0]))
         ].sort()
         : [];
@@ -49,7 +50,8 @@ const QuickBooking = () => {
         ? selectedMovie.showtimes
             .filter(st =>
                 st.screen?.cinema?.id === parseInt(selectedCinemaId) &&
-                st.startTime.startsWith(selectedDate)
+                st.startTime.startsWith(selectedDate) &&
+                new Date(st.startTime) > new Date()
             )
             .map(st => ({
                 id: st.id,

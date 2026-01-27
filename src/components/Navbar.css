@@ -1,15 +1,22 @@
 /* Navbar Container */
 .fixed-content-wrapper {
     position: fixed;
-    /* Fixed to stay on top */
     top: 0;
     width: 100%;
     z-index: 1000;
-    transition: background 0.3s ease;
-    background: rgba(0, 0, 0, 0.8);
-    /* Dark background like Plaza */
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
+    padding: 20px 0;
+    border-bottom: 1px solid transparent;
+}
+
+.fixed-content-wrapper.scrolled {
+    background: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     padding: 0;
-    border-bottom: 1px solid #222;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
 .fixed-content {
@@ -19,17 +26,16 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 90px;
+    height: 80px;
 }
 
 /* Logo Styling */
 .logo {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     font-weight: 800;
     color: var(--white);
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     margin: 0;
     z-index: 1001;
     display: flex;
@@ -38,76 +44,53 @@
 
 .logo em {
     font-style: normal;
-    color: var(--white);
+    background: linear-gradient(45deg, #fff, #ccc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 /* Menu Links - Centered & Spaced */
 .navbar-menu {
     display: flex;
-    gap: 32px;
+    gap: 40px;
     list-style: none;
     margin-left: auto;
-    margin-right: 40px;
+    margin-right: 60px;
 }
 
 .navbar-menu a {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.8rem;
-    color: #cccccc;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
     text-transform: uppercase;
     letter-spacing: 1px;
-    font-weight: 600;
+    font-weight: 500;
     text-decoration: none;
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
+    border-bottom: 2px solid transparent;
+    padding-bottom: 4px;
 }
 
 /* Menu link hover, focus, active */
 .navbar-menu a:hover,
-.navbar-menu a:focus,
-.navbar-menu a.focus {
-    color: var(--red);
-    outline: 2px solid var(--red);
-    outline-offset: 2px;
-    background: rgba(255, 0, 0, 0.05);
-    border-radius: 4px;
+.navbar-menu a:focus {
+    color: var(--white);
+    border-bottom-color: var(--red);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
 /* Actions */
 .navbar-actions {
     margin-left: 0;
+    display: flex;
+    align-items: center;
 }
 
 .navbar-actions .btn {
-    background-color: transparent;
-    color: var(--red);
-    border: 1px solid var(--red);
-    border-radius: 0;
     padding: 10px 24px;
-    font-family: 'Montserrat', sans-serif;
     font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-/* Button hover, focus, active */
-.navbar-actions .btn:hover,
-.navbar-actions .btn:focus,
-.navbar-actions .btn.active {
-    background-color: var(--red);
-    color: var(--white);
-    outline: 2px solid var(--red);
-    outline-offset: 2px;
-}
-
-.logo-link:focus,
-.logo-link.focus {
-    outline: 2px solid var(--red);
-    outline-offset: 2px;
-    background: rgba(255, 0, 0, 0.05);
-    border-radius: 4px;
+    border-radius: 50px;
+    /* Pill shape */
 }
 
 /* Mobile Responsive */
@@ -121,6 +104,7 @@
         display: block;
         cursor: pointer;
         color: #fff;
+        z-index: 1002;
     }
 
     .navicon {
@@ -153,17 +137,40 @@
     .navbar-menu {
         display: none;
         flex-direction: column;
-        position: absolute;
-        top: 80px;
+        position: fixed;
+        top: 0;
         left: 0;
-        width: 100%;
-        background: rgba(0, 0, 0, 0.95);
-        padding: 20px 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(5, 5, 5, 0.98);
+        padding: 120px 0;
         text-align: center;
-        gap: 20px;
+        gap: 32px;
+        z-index: 1000;
+        backdrop-filter: blur(20px);
+    }
+
+    .navbar-menu a {
+        font-size: 1.2rem;
+        color: var(--white);
     }
 
     .menu-btn:checked~.navbar-menu {
         display: flex;
+        animation: fadeIn 0.3s ease-out;
+    }
+
+    .menu-btn:checked~.menu-icon .navicon {
+        background: transparent;
+    }
+
+    .menu-btn:checked~.menu-icon .navicon:before {
+        transform: rotate(-45deg);
+        top: 0;
+    }
+
+    .menu-btn:checked~.menu-icon .navicon:after {
+        transform: rotate(45deg);
+        top: 0;
     }
 }

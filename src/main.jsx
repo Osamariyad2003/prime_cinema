@@ -4,9 +4,11 @@ import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import App from './App.jsx'
 
+console.log('Mounting App...');
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter basename="/prime_cinema/">
+    <BrowserRouter>
       <App />
     </BrowserRouter>
   </StrictMode>,

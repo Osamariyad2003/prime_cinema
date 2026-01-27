@@ -85,7 +85,7 @@
 
 .btn-pay {
     background: var(--gold);
-    color: var(--black);
+    color: var(--red);
     border: none;
 }
 
@@ -118,6 +118,7 @@
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
     margin: 0 auto;
+    color: var(--red);
 }
 
 @keyframes spin {

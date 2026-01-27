@@ -1,1 +1,1 @@
-export const STRIPE_PUBLISHABLE_KEY = "pk_test_51Pzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"; // Replace with your actual Stripe Publishable Key
+export const STRIPE_PUBLISHABLE_KEY = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY; // Replace with your actual Stripe Publishable Key

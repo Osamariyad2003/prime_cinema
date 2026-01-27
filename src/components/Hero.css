@@ -1,74 +1,51 @@
-@media (max-width: 600px) {
-    .hero {
-        min-height: 60vh;
-        padding: 32px 0 16px 0;
-    }
-
-    .hero-content {
-        padding: 0 8px;
-        margin-top: 32px;
-    }
-
-    .hero-title {
-        font-size: 1.5rem;
-        margin-bottom: 12px;
-    }
-
-    .hero-description {
-        font-size: 1rem;
-        margin-bottom: 16px;
-        max-width: 100%;
-    }
-
-    .hero-actions {
-        flex-direction: column;
-        gap: 10px;
-    }
+.hero-slider {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: var(--black);
 }
 
-.hero {
-    position: relative;
-    min-height: 100vh;
+.hero-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1s ease-in-out, visibility 1s;
     display: flex;
     align-items: center;
     justify-content: center;
-    /* Keep centered for balance, or change to flex-start for pure left align */
-    overflow: hidden;
-    padding: 80px 20px;
+    /* Centering content */
 }
 
-/* Video Background */
-.hero-video-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -2;
-    filter: brightness(0.5) saturate(1.2);
+.hero-slide.active {
+    opacity: 1;
+    visibility: visible;
 }
 
-/* Fallback/Overlay adjustments */
 .hero-overlay {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at center, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 100%),
-        linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, transparent 20%, transparent 80%, var(--black) 100%);
-    z-index: -1;
+    inset: 0;
+    background: linear-gradient(to bottom,
+            rgba(0, 0, 0, 0.3) 0%,
+            rgba(0, 0, 0, 0.6) 50%,
+            var(--black) 100%);
+    z-index: 1;
 }
 
-/* Hero Content */
 .hero-content {
+    position: relative;
+    z-index: 2;
     text-align: center;
-    /* Center align looks more premium for this specific layout unless strictly left requested */
-    max-width: 1200px;
-    width: 100%;
-    z-index: 1;
+    max-width: 900px;
+    padding: 0 20px;
+    margin-top: 40px;
+    /* Offset for navbar */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -76,59 +53,133 @@
 
 .hero-subtitle {
     display: block;
-    font-family: 'Montserrat', sans-serif;
-    color: var(--red);
-    /* Pop color */
+    font-size: 1rem;
     letter-spacing: 4px;
-    margin-bottom: 16px;
-    font-size: 1.2rem;
+    color: var(--red);
     font-weight: 700;
-    text-transform: uppercase;
-    background: transparent;
-    border: none;
-    padding: 0;
+    margin-bottom: 16px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .hero-title {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 6rem;
-    /* Huge */
-    line-height: 1;
+    font-size: 5rem;
+    font-weight: 800;
+    line-height: 1.1;
     margin-bottom: 24px;
     color: var(--white);
     text-transform: uppercase;
-    font-weight: 900;
-    letter-spacing: -2px;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 .hero-description {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.5rem;
-    color: var(--light-gray);
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.9);
+    max-width: 600px;
     margin-bottom: 40px;
     font-weight: 300;
-    max-width: 700px;
-    line-height: 1.4;
+    line-height: 1.6;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .hero-actions {
     display: flex;
-    justify-content: center;
     gap: 20px;
+    justify-content: center;
+}
+
+/* Controls */
+.hero-controls {
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    z-index: 10;
+}
+
+.control-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0 20px;
+}
+
+.control-btn:hover {
+    color: var(--white);
+    transform: scale(1.2);
+}
+
+.indicators {
+    display: flex;
+    gap: 12px;
+}
+
+.indicator {
+    width: 60px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+.indicator.active {
+    background: var(--red);
+}
+
+/* Animations */
+.fade-in-up {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s forwards;
+}
+
+.delay-1 {
+    animation-delay: 0.2s;
+}
+
+.delay-2 {
+    animation-delay: 0.4s;
+}
+
+.delay-3 {
+    animation-delay: 0.6s;
+}
+
+.delay-4 {
+    animation-delay: 0.8s;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @media (max-width: 768px) {
     .hero-title {
-        font-size: 2.5rem;
+        font-size: 2.8rem;
     }
 
-    .hero-content {
-        margin-top: 80px;
-        padding: 0 20px;
+    .hero-description {
+        font-size: 1rem;
     }
 
-    .hero-bg {
-        /* Prevent background from moving too much on mobile scroll */
-        background-attachment: scroll;
+    .hero-actions {
+        flex-direction: column;
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .hero-actions .btn {
+        width: 100%;
     }
 }

@@ -1,13 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './MovieModal.css';
-import SeatSelection from './SeatSelection';
-import { createBooking } from '../services/api';
+import BookingFlow from './BookingFlow';
 import { useAuth } from '../context/AuthContext';
+import { fetchMovieById } from '../services/api';
 
 const MovieModal = ({ movie, onClose }) => {
     const { token } = useAuth();
-    const [step, setStep] = useState('details'); // 'details' or 'seats'
+    const [step, setStep] = useState('details'); // 'details' or 'booking'
     const [selectedShowtime, setSelectedShowtime] = useState(null);
+    const [movieDetail, setMovieDetail] = useState(movie);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        if (movie && movie.id) {
+            const loadMovieDetail = async () => {
+                setLoading(true);
+                try {
+                    const data = await fetchMovieById(movie.id);
+                    if (data) {
+                        setMovieDetail(data);
+                    }
+                } catch (error) {
+                    console.error('Failed to fetch movie details:', error);
+                } finally {
+                    setLoading(false);
+                }
+            };
+            loadMovieDetail();
+        }
+    }, [movie?.id]);
 
     if (!movie) return null;
 
@@ -15,23 +36,9 @@ const MovieModal = ({ movie, onClose }) => {
         setSelectedShowtime(showtime);
     };
 
-    const handleProceedToSeats = () => {
+    const handleProceedToBooking = () => {
         if (selectedShowtime) {
-            setStep('seats');
-        }
-    };
-
-    const handleConfirmBooking = async (selectedSeats, paymentMethodId) => {
-        try {
-            await createBooking({
-                showtimeId: selectedShowtime.id,
-                seats: selectedSeats,
-                paymentId: paymentMethodId
-            }, token);
-            alert(`Booking successful! Seats: ${selectedSeats.join(', ')}`);
-            onClose();
-        } catch (error) {
-            alert(`Booking failed: ${error.message}`);
+            setStep('booking');
         }
     };
 
@@ -44,7 +51,7 @@ const MovieModal = ({ movie, onClose }) => {
                     <div
                         className="modal-cover"
                         style={{
-                            backgroundImage: `url(${movie.coverImage || movie.posterUrl || 'https://via.placeholder.com/800x400'})`
+                            backgroundImage: `url(${movieDetail.coverImage || movieDetail.posterUrl || 'https://via.placeholder.com/800x400'})`
                         }}
                     >
                         <div className="modal-cover-gradient"></div>
@@ -56,40 +63,40 @@ const MovieModal = ({ movie, onClose }) => {
                         <>
                             <div className="modal-poster-container">
                                 <img
-                                    src={movie.posterUrl || 'https://via.placeholder.com/300x450'}
-                                    alt={movie.title}
+                                    src={movieDetail.posterUrl || 'https://via.placeholder.com/300x450'}
+                                    alt={movieDetail.title}
                                     className="modal-poster"
                                 />
                             </div>
 
                             <div className="modal-details">
                                 <div className="modal-title-section">
-                                    <h2 className="modal-title">{movie.title}</h2>
+                                    <h2 className="modal-title">{movieDetail.title}</h2>
                                     <div className="modal-meta-row">
-                                        <span className="modal-badge">{movie.rating ? `⭐ ${movie.rating}/10` : 'Not Rated'}</span>
-                                        <span className="modal-meta-item">{movie.durationMinutes} min</span>
-                                        <span className="modal-meta-item">{movie.genre}</span>
-                                        {movie.trailerUrl && (
-                                            <a href={movie.trailerUrl} target="_blank" rel="noopener noreferrer" className="trailer-link">
+                                        <span className="modal-badge">{movieDetail.rating ? `⭐ ${movieDetail.rating}/10` : 'Not Rated'}</span>
+                                        <span className="modal-meta-item">{movieDetail.durationMinutes} min</span>
+                                        <span className="modal-meta-item">{movieDetail.genre}</span>
+                                        {movieDetail.trailerUrl && (
+                                            <a href={movieDetail.trailerUrl} target="_blank" rel="noopener noreferrer" className="trailer-link">
                                                 ▶ Watch Trailer
                                             </a>
                                         )}
                                     </div>
                                 </div>
 
-                                <p className="modal-description">{movie.description || 'No description available.'}</p>
+                                <p className="modal-description">{movieDetail.description || 'No description available.'}</p>
 
                                 <div className="modal-credits">
-                                    {movie.director && (
+                                    {movieDetail.director && (
                                         <div className="credit-item">
                                             <span className="credit-label">Director:</span>
-                                            <span className="credit-value">{movie.director}</span>
+                                            <span className="credit-value">{movieDetail.director}</span>
                                         </div>
                                     )}
-                                    {movie.cast && (
+                                    {movieDetail.cast && (
                                         <div className="credit-item">
                                             <span className="credit-label">Cast:</span>
-                                            <span className="credit-value">{movie.cast}</span>
+                                            <span className="credit-value">{movieDetail.cast}</span>
                                         </div>
                                     )}
                                 </div>
@@ -97,32 +104,36 @@ const MovieModal = ({ movie, onClose }) => {
                                 <div className="showtimes-section">
                                     <h3>Select Showtime</h3>
                                     <div className="showtime-list-container">
-                                        {movie.showtimes && movie.showtimes.length > 0 ? (
-                                            Object.entries(movie.showtimes.reduce((acc, showtime) => {
-                                                const cinemaName = showtime.screen?.cinema?.cinemaName || 'Unknown Cinema';
-                                                if (!acc[cinemaName]) acc[cinemaName] = [];
-                                                acc[cinemaName].push(showtime);
-                                                return acc;
-                                            }, {})).map(([cinemaName, times]) => (
-                                                <div key={cinemaName} className="cinema-group">
-                                                    <h4 className="cinema-group-title">📍 {cinemaName}</h4>
-                                                    <div className="showtime-list">
-                                                        {times.sort((a, b) => new Date(a.startTime) - new Date(b.startTime)).map(showtime => (
-                                                            <button
-                                                                key={showtime.id}
-                                                                className={`showtime-btn ${selectedShowtime?.id === showtime.id ? 'active' : ''}`}
-                                                                onClick={() => handleShowtimeSelect(showtime)}
-                                                            >
-                                                                <span className="time">{new Date(showtime.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                                                                <span className="date-hint">{new Date(showtime.startTime).toLocaleDateString([], { month: 'short', day: 'numeric' })}</span>
-                                                                <span className="screen-hint">{showtime.screen?.screenName}</span>
-                                                            </button>
-                                                        ))}
+                                        {loading ? (
+                                            <div className="loading-showtimes">Loading showtimes...</div>
+                                        ) : (movieDetail.showtimes && movieDetail.showtimes.filter(st => new Date(st.startTime) > new Date()).length > 0) ? (
+                                            Object.entries(movieDetail.showtimes
+                                                .filter(st => new Date(st.startTime) > new Date())
+                                                .reduce((acc, showtime) => {
+                                                    const cinemaName = showtime.screen?.cinema?.cinemaName || 'Unknown Cinema';
+                                                    if (!acc[cinemaName]) acc[cinemaName] = [];
+                                                    acc[cinemaName].push(showtime);
+                                                    return acc;
+                                                }, {})).map(([cinemaName, times]) => (
+                                                    <div key={cinemaName} className="cinema-group">
+                                                        <h4 className="cinema-group-title">📍 {cinemaName}</h4>
+                                                        <div className="showtime-list">
+                                                            {times.sort((a, b) => new Date(a.startTime) - new Date(b.startTime)).map(showtime => (
+                                                                <button
+                                                                    key={showtime.id}
+                                                                    className={`showtime-btn ${selectedShowtime?.id === showtime.id ? 'active' : ''}`}
+                                                                    onClick={() => handleShowtimeSelect(showtime)}
+                                                                >
+                                                                    <span className="time">{new Date(showtime.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                                                    <span className="date-hint">{new Date(showtime.startTime).toLocaleDateString([], { month: 'short', day: 'numeric' })}</span>
+                                                                    <span className="screen-hint">{showtime.screen?.screenName}</span>
+                                                                </button>
+                                                            ))}
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            ))
+                                                ))
                                         ) : (
-                                            <p className="no-showtimes">No showtimes scheduled.</p>
+                                            <p className="no-showtimes">No upcoming showtimes available.</p>
                                         )}
                                     </div>
                                 </div>
@@ -130,17 +141,17 @@ const MovieModal = ({ movie, onClose }) => {
                                 <button
                                     className="book-btn-large"
                                     disabled={!selectedShowtime}
-                                    onClick={handleProceedToSeats}
+                                    onClick={handleProceedToBooking}
                                 >
                                     {selectedShowtime ? 'Proceed to Seats' : 'Select a Showtime'}
                                 </button>
                             </div>
                         </>
                     ) : (
-                        <SeatSelection
+                        <BookingFlow
                             showtime={selectedShowtime}
-                            onConfirm={handleConfirmBooking}
                             onBack={() => setStep('details')}
+                            onComplete={() => onClose()}
                         />
                     )}
                 </div>

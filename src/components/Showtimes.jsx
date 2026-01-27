@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { fetchShowtimes, createBooking } from '../services/api';
+import { fetchShowtimes } from '../services/api'; // Remove createBooking as it's not used directly anymore
 import { useAuth } from '../context/AuthContext';
 import './Showtimes.css';
 import './MovieModal.css';
-import SeatSelection from './SeatSelection';
+import BookingFlow from './BookingFlow'; // Use BookingFlow instead of SeatSelection
 import MovieModal from './MovieModal';
 
 const Showtimes = () => {
@@ -27,7 +27,8 @@ const Showtimes = () => {
             const targetDate = dates[selectedDate];
             try {
                 const data = await fetchShowtimes(targetDate);
-                setSessions(data);
+                const futureSessions = data.filter(session => new Date(session.startTime) > new Date());
+                setSessions(futureSessions);
             } catch (error) {
                 console.error('Failed to load showtimes:', error);
             } finally {
@@ -43,20 +44,7 @@ const Showtimes = () => {
         setShowSeatMap(true);
     };
 
-    const handleConfirmBooking = async (selectedSeats, paymentMethodId) => {
-        try {
-            await createBooking({
-                showtimeId: selectedShowtime.id,
-                seats: selectedSeats,
-                paymentId: paymentMethodId
-            }, token);
-            alert(`Booking successful! Seats: ${selectedSeats.join(', ')}`);
-            setShowSeatMap(false);
-            setSelectedShowtime(null);
-        } catch (error) {
-            alert(`Booking failed: ${error.message}`);
-        }
-    };
+
 
 
     const CalendarIcon = () => (
@@ -163,9 +151,8 @@ const Showtimes = () => {
                                     {selectedShowtime.cinemaName} - {selectedShowtime.screenName} | {new Date(selectedShowtime.startTime).toLocaleString()}
                                 </p>
                             </div>
-                            <SeatSelection
+                            <BookingFlow
                                 showtime={selectedShowtime}
-                                onConfirm={handleConfirmBooking}
                                 onBack={() => setShowSeatMap(false)}
                             />
                         </div>
