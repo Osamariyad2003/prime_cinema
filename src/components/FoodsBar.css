@@ -1,0 +1,11 @@
+.foods-bar {
+    padding: 2rem;
+    background: #fffbe7;
+    border-radius: 12px;
+    margin: 2rem 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.foods-bar h2 {
+    color: #b8860b;
+}

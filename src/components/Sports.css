@@ -1,0 +1,11 @@
+.sports-section {
+    padding: 2rem;
+    background: #e7f7ff;
+    border-radius: 12px;
+    margin: 2rem 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.sports-section h2 {
+    color: #0077b6;
+}

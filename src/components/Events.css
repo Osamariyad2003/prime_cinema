@@ -1,0 +1,11 @@
+.events-section {
+    padding: 2rem;
+    background: #f7e7ff;
+    border-radius: 12px;
+    margin: 2rem 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.events-section h2 {
+    color: #8e24aa;
+}

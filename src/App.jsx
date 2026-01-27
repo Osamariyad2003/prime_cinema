@@ -14,6 +14,9 @@ import HomeShowtimes from './components/HomeShowtimes';
 import MovieCarousel from './components/MovieCarousel';
 import MovieModal from './components/MovieModal';
 import Footer from './components/Footer';
+import FoodsBar from './components/FoodsBar';
+import Sports from './components/Sports';
+import Events from './components/Events';
 
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Login from './components/Login';
@@ -54,14 +57,10 @@ const Home = () => {
         onMovieClick={setSelectedMovie}
       />
 
-      {/* <HomeShowtimes /> */}
-      {/* <MovieGrid /> Removed in favor of Carousels */}
-
-      {/* <EventsExperiences />
-      <CinematicGallery />
-      <LoyaltySection />
-      <CinemaLocations />
-      <HomeInfo /> */}
+      {/* New sections */}
+      <FoodsBar />
+      <Sports />
+      <Events />
 
       {selectedMovie && (
         <MovieModal
