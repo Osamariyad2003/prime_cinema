@@ -87,7 +87,7 @@ function App() {
 
         <main style={{ minHeight: 'calc(100vh - 200px)' }}>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/prime_cinema" element={<Home />} />
             <Route path="/movies" element={<MovieGrid />} />
             <Route path="/showtimes" element={<Showtimes />} />
             <Route path="/locations" element={<CinemaLocations />} />
