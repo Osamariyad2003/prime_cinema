@@ -57,9 +57,9 @@ const Home = () => {
         onMovieClick={setSelectedMovie}
       />
 
-      {/* New sections */}
-      <FoodsBar />
-      <Sports />
+      {/* Remove duplicate sections */}
+      {/* <FoodsBar /> */}
+      {/* <Sports /> */}
       <Events />
 
       {selectedMovie && (
