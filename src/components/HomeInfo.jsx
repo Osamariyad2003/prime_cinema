@@ -81,6 +81,28 @@ const HomeInfo = () => {
                         </p>
                     </div>
                 </div>
+                {/* Social/Contact Section */}
+                <div className="contact-social-section" style={{ marginTop: 40, textAlign: 'center' }}>
+                    <h2 style={{ color: 'var(--red)' }}>Connect With Us</h2>
+                    <div style={{ marginTop: 16, display: 'flex', justifyContent: 'center', gap: 24 }}>
+                        <a
+                            href="https://www.instagram.com/primeamman/?hl=ar"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ color: '#E1306C', fontWeight: 700, fontSize: 18 }}
+                        >
+                            Instagram
+                        </a>
+                        <a
+                            href="https://www.facebook.com/primecinemas/?locale=ar_AR"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ color: '#1877F3', fontWeight: 700, fontSize: 18 }}
+                        >
+                            Facebook
+                        </a>
+                    </div>
+                </div>
             </div>
         </section>
     );

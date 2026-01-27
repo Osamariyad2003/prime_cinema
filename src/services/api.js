@@ -1,3 +1,26 @@
+// Foods Bar API
+export const fetchFoods = async () => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/foods`);
+        if (!response.ok) throw new Error('Failed to fetch foods');
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching foods:', error);
+        return [];
+    }
+};
+
+// Sports Events API
+export const fetchSportsEvents = async () => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/sports`);
+        if (!response.ok) throw new Error('Failed to fetch sports events');
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching sports events:', error);
+        return [];
+    }
+};
 const API_BASE_URL = 'https://prime-cinema-backend-1.onrender.com/api';
 
 export const fetchMovies = async (date) => {

@@ -8,7 +8,7 @@ console.log('Mounting App...');
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/prime_cinema">
       <App />
     </BrowserRouter>
   </StrictMode>,
