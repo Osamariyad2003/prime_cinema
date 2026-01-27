@@ -6,5 +6,5 @@ export default defineConfig({
   server: {
     port: 9000,
   },
-  base: '/', // Always use this base
+  base: '/prime_cinema/', // Always use this base
 })
