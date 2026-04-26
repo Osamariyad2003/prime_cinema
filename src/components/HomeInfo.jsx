@@ -61,7 +61,7 @@ const HomeInfo = () => {
 
                     <div className="info-card">
                         <div className="info-image-wrapper">
-                            <img src={cardImgs[2] || "https://images.unsplash.com/photo-1585647347483-22b66260dfff?w=500&q=80"} alt="Popcorn" />
+                            # Optimize for Web Vitals & Chrome DevTools insights
                         </div>
                         <h3 className="info-title">Gourmet Concessions</h3>
                         <p className="info-desc">
