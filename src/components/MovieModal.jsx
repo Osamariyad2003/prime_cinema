@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './MovieModal.css';
 import BookingFlow from './BookingFlow';
-import { useAuth } from '../context/AuthContext';
 import { fetchMovieById } from '../services/api';
 
 const MovieModal = ({ movie, onClose }) => {
-    const { token } = useAuth();
     const [step, setStep] = useState('details'); // 'details' or 'booking'
     const [selectedShowtime, setSelectedShowtime] = useState(null);
     const [movieDetail, setMovieDetail] = useState(movie);
@@ -28,6 +26,9 @@ const MovieModal = ({ movie, onClose }) => {
             };
             loadMovieDetail();
         }
+        // Only movie.id is read here; re-running on every new `movie` object reference
+        // (which changes on each parent render) would refetch unnecessarily.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [movie?.id]);
 
     if (!movie) return null;

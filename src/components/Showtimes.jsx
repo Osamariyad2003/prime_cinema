@@ -1,25 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { fetchShowtimes } from '../services/api'; // Remove createBooking as it's not used directly anymore
-import { useAuth } from '../context/AuthContext';
+import React, { useState, useEffect, useMemo } from 'react';
+import { fetchShowtimes } from '../services/api';
 import './Showtimes.css';
 import './MovieModal.css';
 import BookingFlow from './BookingFlow'; // Use BookingFlow instead of SeatSelection
 import MovieModal from './MovieModal';
 
 const Showtimes = () => {
-    const { token } = useAuth();
     const [sessions, setSessions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedDate, setSelectedDate] = useState(0);
     const [selectedShowtime, setSelectedShowtime] = useState(null);
     const [showSeatMap, setShowSeatMap] = useState(false);
 
-    // Generate upcoming dates
-    const dates = Array.from({ length: 14 }, (_, i) => {
+    // Generate upcoming dates once per mount so the array reference stays stable across renders.
+    const dates = useMemo(() => Array.from({ length: 14 }, (_, i) => {
         const d = new Date();
         d.setDate(d.getDate() + i);
         return d;
-    });
+    }), []);
 
     useEffect(() => {
         const loadSessions = async () => {
@@ -36,7 +34,7 @@ const Showtimes = () => {
             }
         };
         loadSessions();
-    }, [selectedDate]);
+    }, [selectedDate, dates]);
 
 
     const handleSeatClick = (session) => {

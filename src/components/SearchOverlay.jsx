@@ -6,7 +6,6 @@ import './SearchOverlay.css';
 const SearchOverlay = ({ isOpen, onClose }) => {
     const [query, setQuery] = useState('');
     const [allMovies, setAllMovies] = useState([]);
-    const [results, setResults] = useState([]);
 
     useEffect(() => {
         const loadMovies = async () => {
@@ -18,18 +17,15 @@ const SearchOverlay = ({ isOpen, onClose }) => {
         }
     }, [isOpen, allMovies.length]);
 
-    useEffect(() => {
-        if (query.trim() === '') {
-            setResults([]);
-            return;
-        }
-
-        const filtered = allMovies.filter(movie =>
-            movie.title.toLowerCase().includes(query.toLowerCase()) ||
-            movie.genre?.some(g => g.toLowerCase().includes(query.toLowerCase()))
+    // Derived directly from state instead of mirrored into its own state + effect —
+    // avoids the extra render/setState-in-effect cascade and can't drift out of sync.
+    const trimmedQuery = query.trim().toLowerCase();
+    const results = trimmedQuery === ''
+        ? []
+        : allMovies.filter(movie =>
+            (movie.title || '').toLowerCase().includes(trimmedQuery) ||
+            movie.genre?.some(g => g.toLowerCase().includes(trimmedQuery))
         );
-        setResults(filtered);
-    }, [query, allMovies]);
 
     if (!isOpen) return null;
 

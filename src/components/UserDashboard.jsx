@@ -14,7 +14,7 @@ const UserDashboard = () => {
                 const data = await fetchMyBookings(token);
                 setBookings(data);
             } catch (error) {
-                console.error('Failed to fetch bookings');
+                console.error('Failed to fetch bookings:', error);
             } finally {
                 setLoading(false);
             }
@@ -58,12 +58,17 @@ const UserDashboard = () => {
                             {bookings.map(booking => (
                                 <div key={booking.id} className="booking-item">
                                     <div className="booking-info">
-                                        <h4>{booking.showtime?.movie?.title}</h4>
-                                        <p>{new Date(booking.showtime?.startTime).toLocaleString()}</p>
-                                        <p>{booking.showtime?.screen?.cinema?.cinemaName} - {booking.showtime?.screen?.screenName}</p>
+                                        <h4>{booking.showtime?.movie?.title || 'Untitled booking'}</h4>
+                                        {booking.showtime?.startTime && <p>{new Date(booking.showtime.startTime).toLocaleString()}</p>}
+                                        {(booking.showtime?.screen?.cinema?.cinemaName || booking.showtime?.screen?.screenName) && (
+                                            <p>{booking.showtime?.screen?.cinema?.cinemaName} - {booking.showtime?.screen?.screenName}</p>
+                                        )}
+                                        {booking.seat?.label && <p>Seat {booking.seat.label}</p>}
                                     </div>
                                     <div className="booking-status">
-                                        <span className="badge">Confirmed</span>
+                                        <span className={`badge ${booking.status === 'pending' ? 'pending' : ''}`}>
+                                            {booking.status ? booking.status.charAt(0).toUpperCase() + booking.status.slice(1) : 'Unknown'}
+                                        </span>
                                     </div>
                                 </div>
                             ))}

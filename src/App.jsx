@@ -22,6 +22,8 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import Login from './components/Login';
 import Register from './components/Register';
 import UserDashboard from './components/UserDashboard';
+import NotFound from './components/NotFound';
+import ErrorBoundary from './components/ErrorBoundary';
 import { fetchMovies } from './services/api';
 
 const Home = () => {
@@ -86,27 +88,30 @@ function App() {
         <Navbar />
 
         <main style={{ minHeight: 'calc(100vh - 200px)' }}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/movies" element={<MovieGrid />} />
-            <Route path="/showtimes" element={<Showtimes />} />
-            <Route path="/locations" element={<CinemaLocations />} />
-            <Route path="/club" element={<LoyaltySection />} />
-            <Route path="/foods-bar" element={<FoodsBar />} />
-            <Route path="/sports" element={<Sports />} />
-            <Route path="/events" element={<EventsExperiences />} />
-            <Route path="/contact" element={<HomeInfo />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <UserDashboard />
-                </ProtectedRoute>
-              }
-            />
-          </Routes>
+          <ErrorBoundary>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/movies" element={<MovieGrid />} />
+              <Route path="/showtimes" element={<Showtimes />} />
+              <Route path="/locations" element={<CinemaLocations />} />
+              <Route path="/club" element={<LoyaltySection />} />
+              <Route path="/foods-bar" element={<FoodsBar />} />
+              <Route path="/sports" element={<Sports />} />
+              <Route path="/events" element={<EventsExperiences />} />
+              <Route path="/contact" element={<HomeInfo />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <UserDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </ErrorBoundary>
         </main>
 
         <Footer />

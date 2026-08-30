@@ -12,7 +12,7 @@ const Sports = () => {
             try {
                 const data = await fetchSportsEvents();
                 setEvents(data);
-            } catch (e) {
+            } catch {
                 setEvents([]);
             } finally {
                 setLoading(false);
@@ -42,15 +42,15 @@ const Sports = () => {
                                     />
                                 </div>
                                 <div className="sport-details">
-                                    <h3 className="sport-title">{event.title}</h3>
-                                    <div className="sport-meta">{event.genre}</div>
-                                    <div className="sport-desc">{event.description}</div>
-                                    <div className="sport-info"><b>Director:</b> {event.director}</div>
-                                    <div className="sport-info"><b>Duration:</b> {event.durationMinutes} min</div>
-                                    <div className="sport-info"><b>Release:</b> {event.releaseDate}</div>
-                                    <div className="sport-info"><b>Languages:</b> {event.languages?.join(', ')}</div>
+                                    <h3 className="sport-title">{event.title || 'Untitled event'}</h3>
+                                    {event.genre && <div className="sport-meta">{event.genre}</div>}
+                                    {event.description && <div className="sport-desc">{event.description}</div>}
+                                    {event.director && <div className="sport-info"><b>Director:</b> {event.director}</div>}
+                                    {event.durationMinutes != null && <div className="sport-info"><b>Duration:</b> {event.durationMinutes} min</div>}
+                                    {event.releaseDate && <div className="sport-info"><b>Release:</b> {event.releaseDate}</div>}
+                                    {event.languages?.length > 0 && <div className="sport-info"><b>Languages:</b> {event.languages.join(', ')}</div>}
                                     <div className={`sport-status ${event.status === 'now_showing' ? 'active' : ''}`}>
-                                        {event.status === 'now_showing' ? 'Now Showing' : event.status}
+                                        {event.status === 'now_showing' ? 'Now Showing' : (event.status || 'Status unavailable')}
                                     </div>
                                 </div>
                             </div>

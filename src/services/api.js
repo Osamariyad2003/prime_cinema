@@ -1,5 +1,7 @@
 
-const API_BASE_URL = 'https://prime-cinema-backend-1.onrender.com/api';
+// Configurable via VITE_API_BASE_URL so different environments (local backend, staging,
+// production) don't require editing source. Falls back to the deployed backend for convenience.
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://prime-cinema-backend-1.onrender.com/api';
 
 // Foods Bar API
 export const fetchFoods = async () => {
@@ -49,6 +51,15 @@ export const fetchMovieById = async (id) => {
         console.error('Error fetching movie details:', error);
         return null;
     }
+};
+
+// Real per-seat availability for a specific showtime (seat.id is the real inventory ID the
+// backend expects on POST /bookings — do NOT use the mock-generated row/col labels for this).
+export const fetchShowtimeSeats = async (showtimeId) => {
+    const response = await fetch(`${API_BASE_URL}/showtimes/${showtimeId}/seats`);
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || 'Failed to fetch seat availability');
+    return data;
 };
 
 export const fetchCinemas = async () => {
@@ -107,6 +118,11 @@ export const fetchMyBookings = async (token) => {
     return data;
 };
 
+// Backend contract (verified against the live API): one booking = one seat.
+// Body: { showtimeId, seatId, guestEmail? }. Response: { booking, clientSecret } — clientSecret
+// is a Stripe PaymentIntent client secret that must then be confirmed client-side with
+// stripe.confirmCardPayment(); creating the booking is what actually reserves the seat, before
+// any card is charged.
 export const createBooking = async (bookingData, token) => {
     const response = await fetch(`${API_BASE_URL}/bookings`, {
         method: 'POST',

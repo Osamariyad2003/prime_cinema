@@ -2,6 +2,36 @@
 
 A modern, premium cinema booking platform built with React and Vite, featuring a sleek black, white, and red design inspired by contemporary minimalism.
 
+## 📸 Screenshots
+
+### Browsing
+
+| Home | Movies | Showtimes | Cinema Locations |
+|---|---|---|---|
+| ![Home](docs/screenshots/home.jpg) | ![Movies](docs/screenshots/movies.jpg) | ![Showtimes](docs/screenshots/showtimes.jpg) | ![Locations](docs/screenshots/locations.jpg) |
+
+### Booking flow
+
+| Seat Selection | Sign In / Guest | Payment | Booking Confirmed |
+|---|---|---|---|
+| ![Seat Selection](docs/screenshots/seat-selection.jpg) | ![Auth Selection](docs/screenshots/auth-selection.jpg) | ![Payment](docs/screenshots/payment.jpg) | ![Booking Confirmed](docs/screenshots/booking-confirmed.jpg) |
+
+### Account
+
+| Login | Register | Dashboard | Loyalty Club |
+|---|---|---|---|
+| ![Login](docs/screenshots/login.jpg) | ![Register](docs/screenshots/register.jpg) | ![Dashboard](docs/screenshots/dashboard.jpg) | ![Loyalty](docs/screenshots/loyalty.jpg) |
+
+### More
+
+| Foods Bar | Sports | Events & Experiences | Contact |
+|---|---|---|---|
+| ![Foods Bar](docs/screenshots/foods-bar.jpg) | ![Sports](docs/screenshots/sports.jpg) | ![Events](docs/screenshots/events.jpg) | ![Contact](docs/screenshots/contact.jpg) |
+
+| 404 Page |
+|---|
+| ![404](docs/screenshots/404.jpg) |
+
 ## 🎬 Features
 
 - **Responsive Design**: Fully responsive UI optimized for all devices
@@ -35,7 +65,10 @@ A modern, premium cinema booking platform built with React and Vite, featuring a
 # Install dependencies
 npm install
 
-# Start development server (runs on port 6000)
+# Copy the env template and fill in real values (all vars need the VITE_ prefix)
+cp .env.example .env
+
+# Start development server (runs on port 9000)
 npm run dev
 
 # Build for production
@@ -48,22 +81,22 @@ npm run preview
 ## 🔧 Configuration
 
 ### Port Configuration
-The dev server runs on **port 6000** by default. You can change this in `vite.config.js`:
-
-```javascript
-export default defineConfig({
-  server: {
-    port: 6000, // Change to your preferred port
-  },
-})
-```
+The dev server runs on **port 9000** by default (see `server.port` in `vite.config.js`).
 
 ### API Configuration
-The frontend connects to the backend API at `http://localhost:4000/api`. Update the API base URL in `src/services/api.js` if needed:
+The frontend connects to the backend API at the URL in `VITE_API_BASE_URL` (see `.env.example`).
+By default — if that variable is not set — it falls back to the deployed backend at
+`https://prime-cinema-backend-1.onrender.com/api`. To point at a local backend instead, set:
 
-```javascript
-const API_BASE_URL = 'http://localhost:4000/api';
 ```
+VITE_API_BASE_URL=http://localhost:4000/api
+```
+
+### Environment Variables
+All client-exposed env vars must be prefixed `VITE_` (a Vite requirement — anything without the
+prefix is invisible to browser code and will silently break the feature that needs it, e.g. a
+missing prefix on the Stripe key breaks the entire payment step). See `.env.example` for the full
+list: `VITE_API_BASE_URL`, `VITE_STRIPE_PUBLISHABLE_KEY`, `VITE_UNSPLASH_ACCESS_KEY`.
 
 ## 📁 Project Structure
 
@@ -95,8 +128,13 @@ prime_cinema_front/
 - `/showtimes` - View movie schedules
 - `/locations` - Cinema locations
 - `/club` - Loyalty program
+- `/foods-bar` - Concessions menu
+- `/sports` - Sports events
 - `/events` - Upcoming events
 - `/contact` - Contact page
+- `/login`, `/register` - Authentication
+- `/dashboard` - User dashboard (protected — redirects to `/login` if signed out)
+- any other path - 404 page
 
 ## 🎯 Key Components
 
@@ -124,7 +162,8 @@ This frontend requires the Prime Cinema backend API to be running. The backend h
 - Booking management
 
 **Backend Repository**: `cinema_booking_API-main`
-**Backend Port**: 4000
+**Default deployed backend**: `https://prime-cinema-backend-1.onrender.com/api` (override with
+`VITE_API_BASE_URL` — see Configuration above)
 
 ## 📱 Browser Support
 

@@ -48,10 +48,10 @@ const LoyaltySection = () => {
                         <div className="card-logo">PRIME CLUB</div>
                         <div className="card-chip"></div>
                         <div className="card-number">
-                            {user?.loyaltyCard ? user.loyaltyCard.cardNumber.replace(/(\d{4})/g, '$1 ').trim() : '•••• •••• •••• 1234'}
+                            {user?.loyaltyCard?.cardNumber ? user.loyaltyCard.cardNumber.replace(/(\d{4})/g, '$1 ').trim() : '•••• •••• •••• 1234'}
                         </div>
                         <div className="card-holder-group">
-                            <span className="card-holder">{user ? user.name.toUpperCase() : 'VIP MEMBER'}</span>
+                            <span className="card-holder">{user?.name ? user.name.toUpperCase() : 'VIP MEMBER'}</span>
                             <span className="card-rank">{tier}</span>
                         </div>
                         <div className="card-points">{points} pts</div>
@@ -60,7 +60,7 @@ const LoyaltySection = () => {
 
                 <div className="loyalty-content">
                     <h2 className="loyalty-title">
-                        {user ? `Welcome, ${user.name}` : 'Join The Prime Club'}
+                        {user ? `Welcome, ${user.name || 'Member'}` : 'Join The Prime Club'}
                         <span> {tier}</span>
                     </h2>
                     <p className="loyalty-desc">
@@ -70,7 +70,7 @@ const LoyaltySection = () => {
                         }
                     </p>
                     <ul className="loyalty-perks">
-                        {tierBenefits[tier].map((perk, idx) => (
+                        {(tierBenefits[tier] || tierBenefits.Standard).map((perk, idx) => (
                             <li key={idx} tabIndex={0} className="perk-item"><i>★</i> {perk}</li>
                         ))}
                     </ul>

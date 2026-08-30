@@ -9,13 +9,16 @@ import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import './BookingFlow.css';
 
-const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY);
+// loadStripe resolves to null (rather than throwing) when the key is missing/invalid,
+// so a misconfigured env var degrades to "payment unavailable" instead of a hard crash.
+const stripePromise = STRIPE_PUBLISHABLE_KEY ? loadStripe(STRIPE_PUBLISHABLE_KEY) : Promise.resolve(null);
 
 const BookingFlow = ({ showtime, onBack, onComplete }) => {
     const [step, setStep] = useState('seats'); // 'seats', 'auth', 'payment', 'success'
     const [selectedSeats, setSelectedSeats] = useState([]);
     const [isGuest, setIsGuest] = useState(false);
-    const { user } = useAuth();
+    const [bookingResult, setBookingResult] = useState(null);
+    const { user, token } = useAuth();
     const navigate = useNavigate();
 
     // Steps configuration
@@ -43,9 +46,11 @@ const BookingFlow = ({ showtime, onBack, onComplete }) => {
         navigate('/login', { state: { returnTo: '/showtimes' } });
     };
 
-    const handlePaymentSuccess = () => {
+    // CheckoutForm does the actual createBooking()+confirmCardPayment() work per seat (it owns
+    // the Stripe SDK instance) and only calls this once every seat is genuinely booked and paid.
+    const handlePaymentSuccess = (bookings) => {
+        setBookingResult(bookings);
         setStep('success');
-        // Here you would typically save booking to backend
     };
 
     const calculateTotal = () => {
@@ -94,6 +99,8 @@ const BookingFlow = ({ showtime, onBack, onComplete }) => {
                                     amount={calculateTotal()}
                                     movieTitle={showtime?.movieTitle || "Movie Ticket"}
                                     seats={selectedSeats}
+                                    showtimeId={showtime?.id}
+                                    token={token}
                                     onSuccess={handlePaymentSuccess}
                                     onCancel={() => setStep(user ? 'seats' : 'auth')}
                                     isGuest={isGuest}
@@ -107,6 +114,25 @@ const BookingFlow = ({ showtime, onBack, onComplete }) => {
                     <div className="success-message fade-in">
                         <div className="success-icon">✓</div>
                         <h2>Booking Confirmed!</h2>
+                        {bookingResult?.length > 0 && (
+                            <p className="booking-id">
+                                Booking ID{bookingResult.length > 1 ? 's' : ''}: <strong>{bookingResult.map(b => b.id).join(', ')}</strong>
+                            </p>
+                        )}
+                        <div className="success-summary">
+                            <div className="summary-row">
+                                <span>Movie</span>
+                                <strong>{showtime?.movieTitle || 'Movie Ticket'}</strong>
+                            </div>
+                            <div className="summary-row">
+                                <span>Seats</span>
+                                <strong>{selectedSeats.map(s => s.label).join(', ')}</strong>
+                            </div>
+                            <div className="summary-row">
+                                <span>Total</span>
+                                <strong>${calculateTotal().toFixed(2)}</strong>
+                            </div>
+                        </div>
                         <p>Enjoy the movie. Your tickets have been sent to your email.</p>
                         <button className="btn btn-primary" onClick={() => {
                             if (onComplete) onComplete();

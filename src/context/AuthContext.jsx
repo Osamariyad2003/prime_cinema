@@ -8,6 +8,12 @@ export const AuthProvider = ({ children }) => {
     const [token, setToken] = useState(localStorage.getItem('token'));
     const [loading, setLoading] = useState(true);
 
+    const logout = () => {
+        setUser(null);
+        setToken(null);
+        localStorage.removeItem('token');
+    };
+
     useEffect(() => {
         const loadUser = async () => {
             if (token) {
@@ -15,7 +21,7 @@ export const AuthProvider = ({ children }) => {
                     const profileData = await fetchProfile(token);
                     setUser(profileData);
                 } catch (error) {
-                    console.error('Session expired');
+                    console.error('Session expired:', error);
                     logout();
                 }
             }
@@ -30,12 +36,6 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('token', userToken);
     };
 
-    const logout = () => {
-        setUser(null);
-        setToken(null);
-        localStorage.removeItem('token');
-    };
-
     return (
         <AuthContext.Provider value={{ user, token, loginUser, logout, loading }}>
             {children}
@@ -43,4 +43,8 @@ export const AuthProvider = ({ children }) => {
     );
 };
 
+// Kept alongside AuthProvider deliberately; splitting into a separate file would require
+// updating ~15 import sites for no functional benefit (this only affects React Fast Refresh
+// granularity in dev).
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => useContext(AuthContext);

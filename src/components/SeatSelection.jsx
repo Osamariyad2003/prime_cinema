@@ -1,62 +1,63 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { fetchShowtimeSeats } from '../services/api';
 import './SeatSelection.css';
 
 const SeatSelection = ({ showtime, onConfirm, onBack }) => {
     const [selectedSeats, setSelectedSeats] = useState([]);
     const [seats, setSeats] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    const rows = ['K', 'J', 'I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A'];
+    const loadSeats = useCallback(async () => {
+        if (!showtime?.id) {
+            setError('No showtime selected.');
+            setLoading(false);
+            return;
+        }
+        setLoading(true);
+        setError(null);
+        try {
+            const data = await fetchShowtimeSeats(showtime.id);
+            setSeats(data.seats || []);
+        } catch {
+            setError('Could not load seat availability. Please try again.');
+        } finally {
+            setLoading(false);
+        }
+    }, [showtime?.id]);
 
     useEffect(() => {
-        // Mocking seat data
-        const generateMockSeats = () => {
-            const mockSeats = [];
-            rows.forEach(row => {
-                for (let col = 22; col >= 1; col--) {
-                    mockSeats.push({
-                        id: `${row}${col}`,
-                        row: row,
-                        column: col,
-                        seatNumber: `${row}${col}`,
-                        isBooked: Math.random() < 0.1,
-                        type: 'standard'
-                    });
-                }
-            });
-            // Row V (VIP)
-            for (let col = 10; col >= 1; col--) {
-                mockSeats.push({
-                    id: `V${col}`,
-                    row: 'V',
-                    column: col,
-                    seatNumber: `${col}`,
-                    isBooked: Math.random() < 0.05,
-                    type: 'vip'
-                });
-            }
-            setSeats(mockSeats);
-            setLoading(false);
-        };
-        generateMockSeats();
-    }, []);
+        loadSeats();
+    }, [loadSeats]);
 
-    const toggleSeat = (seatId) => {
-        const seat = seats.find(s => s.id === seatId);
-        if (seat?.isBooked) return;
+    const rows = [...new Set(seats.map(s => s.row))].sort();
+
+    const toggleSeat = (seat) => {
+        if (seat.status !== 'available') return;
 
         setSelectedSeats(prev =>
-            prev.includes(seatId)
-                ? prev.filter(id => id !== seatId)
-                : [...prev, seatId]
+            prev.some(s => s.id === seat.id)
+                ? prev.filter(s => s.id !== seat.id)
+                : [...prev, seat]
         );
     };
 
     const calculateTotal = () => {
-        return selectedSeats.length * (showtime?.price || 12.50); // Default bumped to premium price
+        return selectedSeats.length * (showtime?.price || 12.50);
     };
 
     if (loading) return <div className="loading-seats">Loading Cinema Map...</div>;
+
+    if (error) {
+        return (
+            <div className="loading-seats">
+                {error}
+                <div style={{ marginTop: '16px' }}>
+                    <button className="confirm-booking-btn" onClick={loadSeats}>Retry</button>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="seat-selection-container fade-in">
@@ -71,30 +72,35 @@ const SeatSelection = ({ showtime, onConfirm, onBack }) => {
                         {rows.map(row => (
                             <div key={row} className="seat-row">
                                 <span className="row-label">{row}</span>
-                                {seats.filter(s => s.row === row).map(seat => (
-                                    <div
-                                        key={seat.id}
-                                        className={`seat ${seat.isBooked ? 'sold' : ''} ${selectedSeats.includes(seat.id) ? 'selected' : ''}`}
-                                        onClick={() => toggleSeat(seat.id)}
-                                        title={`${seat.row}${seat.column}`}
-                                    ></div>
-                                ))}
+                                {seats
+                                    .filter(s => s.row === row)
+                                    .sort((a, b) => a.col - b.col)
+                                    .map(seat => {
+                                        const isSold = seat.status !== 'available';
+                                        const isSelected = selectedSeats.some(s => s.id === seat.id);
+                                        return (
+                                            <div
+                                                key={seat.id}
+                                                role="button"
+                                                tabIndex={isSold ? -1 : 0}
+                                                aria-disabled={isSold}
+                                                aria-pressed={isSelected}
+                                                aria-label={`Seat ${seat.label}${isSold ? ', sold' : isSelected ? ', selected' : ', available'}${seat.type && seat.type !== 'Standard' ? `, ${seat.type}` : ''}`}
+                                                className={`seat ${seat.type === 'Wheelchair' ? 'seat-vip' : ''} ${isSold ? 'sold' : ''} ${isSelected ? 'selected' : ''}`}
+                                                onClick={() => toggleSeat(seat)}
+                                                onKeyDown={e => {
+                                                    if (e.key === 'Enter' || e.key === ' ') {
+                                                        e.preventDefault();
+                                                        toggleSeat(seat);
+                                                    }
+                                                }}
+                                                title={seat.label}
+                                            ></div>
+                                        );
+                                    })}
                                 <span className="row-label">{row}</span>
                             </div>
                         ))}
-
-                        <div className="seat-row row-v">
-                            <span className="row-label">VIP</span>
-                            {seats.filter(s => s.row === 'V').map(seat => (
-                                <div
-                                    key={seat.id}
-                                    className={`seat seat-vip ${seat.isBooked ? 'sold' : ''} ${selectedSeats.includes(seat.id) ? 'selected' : ''}`}
-                                    onClick={() => toggleSeat(seat.id)}
-                                >
-                                    <span style={{ fontSize: '10px' }}>{seat.column}</span>
-                                </div>
-                            ))}
-                        </div>
                     </div>
                 </div>
             </div>
@@ -108,13 +114,18 @@ const SeatSelection = ({ showtime, onConfirm, onBack }) => {
             <div className="booking-footer">
                 <div className="selected-info">
                     <span className="info-label">Selected</span>
-                    <span className="info-value">{selectedSeats.length > 0 ? selectedSeats.join(', ') : 'None'}</span>
+                    <span className="info-value">{selectedSeats.length > 0 ? selectedSeats.map(s => s.label).join(', ') : 'None'}</span>
                 </div>
                 <div className="pricing-info">
                     <span className="info-label">Total</span>
                     <span className="total-price">${calculateTotal().toFixed(2)}</span>
                 </div>
                 <div className="actions">
+                    {onBack && (
+                        <button className="back-booking-btn" onClick={onBack}>
+                            Back
+                        </button>
+                    )}
                     <button className="confirm-booking-btn" disabled={selectedSeats.length === 0} onClick={() => onConfirm(selectedSeats)}>
                         Continue
                     </button>

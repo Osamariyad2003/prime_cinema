@@ -42,6 +42,18 @@ const CinemaLocations = () => {
         setExpandedCinemaId(expandedCinemaId === id ? null : id);
     };
 
+    // Haversine great-circle distance in km between two lat/lng points.
+    const distanceKm = (lat1, lon1, lat2, lon2) => {
+        const R = 6371;
+        const dLat = (lat2 - lat1) * Math.PI / 180;
+        const dLon = (lon2 - lon1) * Math.PI / 180;
+        const a =
+            Math.sin(dLat / 2) ** 2 +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLon / 2) ** 2;
+        return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    };
+
     const findNearestCinema = () => {
         if (!isGeolocationAvailable) {
             setStatus("Your browser does not support Geolocation");
@@ -53,18 +65,30 @@ const CinemaLocations = () => {
         }
 
         if (coords) {
-            setStatus('Locating...');
-            // Calculate distances using the hook's coords
             const { latitude, longitude } = coords;
 
-            // Mock logic since DB doesn't have lat/lng yet, but using the real user lat/lng
-            const sorted = [...cinemas].map(c => ({
-                ...c,
-                distance: Math.random() * 20 // Still mocking usage of lat/lng until DB has it
-            })).sort((a, b) => a.distance - b.distance);
+            const withCoords = cinemas.filter(c => c.latitude != null && c.longitude != null);
+
+            if (withCoords.length === 0) {
+                // Cinema records don't carry coordinates yet — don't fabricate a distance/ranking,
+                // just say so honestly instead of pretending to sort by real proximity.
+                setStatus('Location detected, but distance data is not yet available for our cinemas.');
+                return;
+            }
+
+            const sorted = [...cinemas]
+                .map(c => (c.latitude != null && c.longitude != null)
+                    ? { ...c, distance: distanceKm(latitude, longitude, c.latitude, c.longitude) }
+                    : c
+                )
+                .sort((a, b) => {
+                    if (a.distance == null) return 1;
+                    if (b.distance == null) return -1;
+                    return a.distance - b.distance;
+                });
 
             setSortedCinemas(sorted);
-            setStatus(`Found nearest: ${sorted[0].cinemaName} (based on Lat: ${latitude.toFixed(2)}, Lng: ${longitude.toFixed(2)})`);
+            setStatus(`Found nearest: ${sorted[0].cinemaName} (${sorted[0].distance.toFixed(1)} km away)`);
         } else {
             setStatus("Getting location data...");
         }

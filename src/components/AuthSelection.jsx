@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
+import React from 'react';
 import './AuthSelection.css';
 
 const AuthSelection = ({ onGuest, onLogin }) => {

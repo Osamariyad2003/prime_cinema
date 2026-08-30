@@ -11,7 +11,7 @@ const FoodsBar = () => {
             try {
                 const data = await fetchFoods();
                 setFoods(data);
-            } catch (e) {
+            } catch {
                 setFoods([]);
             } finally {
                 setLoading(false);
@@ -36,15 +36,17 @@ const FoodsBar = () => {
                                 <div className="food-image-wrapper">
                                     <img
                                         src={food.imageUrl}
-                                        alt={food.name}
+                                        alt={food.name || 'Menu item'}
                                         onError={e => { e.target.src = 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=300&q=80'; }}
                                     />
                                 </div>
                                 <div className="food-details">
-                                    <h3 className="food-title">{food.name}</h3>
-                                    <div className="food-category">{food.category}</div>
-                                    <div className="food-desc">{food.description}</div>
-                                    <div className="food-price">{food.price.toFixed(2)} JOD</div>
+                                    <h3 className="food-title">{food.name || 'Untitled item'}</h3>
+                                    {food.category && <div className="food-category">{food.category}</div>}
+                                    {food.description && <div className="food-desc">{food.description}</div>}
+                                    <div className="food-price">
+                                        {typeof food.price === 'number' ? `${food.price.toFixed(2)} JOD` : 'Price unavailable'}
+                                    </div>
                                 </div>
                             </div>
                         ))}
